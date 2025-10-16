@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Duration</title> <!-- change title -->
+   <link rel="stylesheet" href="conversions.css"> <!-- Link to external CSS file -->
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+   <link href="https://fonts.googleapis.com/css2?family=Lilita+One&display=swap" rel="stylesheet">
+   <link href="https://fonts.googleapis.com/css2?family=Oswald&display=swap" rel="stylesheet">
+</head>
+<body>
+     <!-- This is the button code for home -->
+     <div class="button-container">
+        <form action="TheConvertinator.html"> <!-- redirects to home page -->
+            <button type="submit" class="home-btn">
+                <i class="fa-solid fa-house"></i> Home <!-- ICON LOGO -->
+            </button>
+        </form>
+
+    <!--These are the buttons for clearHistory and download History-->
+        <button onclick="clearHistory()">
+            <i class="fas fa-history"></i> Clear History
+        </button>
+        <button onclick="downloadHistory()">
+            <i class="fas fa-download"></i> Download History
+        </button>
+
+    </div>
+   <h1 class="page-title">Duration</h1> <!-- change header -->
+   <div class="outer-block">
+       <!-- Inner block 1 -->
+       <div class="inner-block">
+               <input type="number" id="inputField">
+               <select id="dropdown1" onchange="updateDropdown2()">
+                   <option value="nanosecond">NANOSECOND</option> <!-- change options -->
+                   <option value="microsecond">MICROSECOND</option>
+                   <option value="millisecond">MILLISECOND</option>
+                   <option value="second">SECOND</option>
+                   <option value="minute">MINUTE</option>
+                   <option value="hour">HOUR</option>
+                   <option value="day">DAY</option>
+                   <option value="week">WEEK</option>
+                   <option value="month">MONTH</option>
+                   <option value="year">CALENDAR YEAR</option>
+                   <option value="decade">DECADE</option>
+                   <option value="century">CENTURY</option>
+               </select>
+       </div>
+
+
+       <span class="equal-sign">=</span>
+
+
+       <!-- Inner block 2 -->
+       <div class="inner-block">
+           <input type="text" id="outputField">
+           <select id="dropdown2">
+                <option value="nanosecond">NANOSECOND</option> <!-- change options -->
+                <option value="microsecond">MICROSECOND</option>
+                <option value="millisecond">MILLISECOND</option>
+                <option value="second">SECOND</option>
+                <option value="minute">MINUTE</option>
+                <option value="hour">HOUR</option>
+                <option value="day">DAY</option>
+                <option value="week">WEEK</option>
+                <option value="month">MONTH</option>
+                <option value="year">CALENDAR YEAR</option>
+                <option value="decade">DECADE</option>
+                <option value="century">CENTURY</option>
+           </select>
+       </div>
+
+
+       <!-- Dropdown menu -->
+     
+   </div>
+ <!-- JavaScript to update dropdown -->
+ <script>
+   function updateDropdown2() {
+       const dropdown1 = document.getElementById('dropdown1');
+       const dropdown2 = document.getElementById('dropdown2');
+       const selectedValue = dropdown1.value;
+
+
+       // Enable all options first
+       Array.from(dropdown2.options).forEach(option => {
+           option.disabled = false;
+       });
+
+
+       // to disable the selected option in dropdown 2
+       if (selectedValue) {
+           const optionToDisable = dropdown2.querySelector(`option[value='${selectedValue}']`);
+           if (optionToDisable) {
+               optionToDisable.disabled = true;
+           }
+       }
+       // Automatically select the first enabled option in dropdown 2 if the same value is selected
+       if (dropdown2.value === selectedValue) {
+            for (let option of dropdown2.options) {
+                if (!option.disabled) {
+                    dropdown2.value = option.value;
+                    break;
+                }
+            }
+        }
+   }
+   
+</script>
+
+<!--conversion button-->
+<div class="convert-btn">
+    <button2 id="convertButton" onclick="convertDuration()" disabled>Convert</button2>
+</div>
+
+<!-- JavaScript File -->
+<script src="history.js"></script>
+
+<!--Script to integrate WASM-->
+<script>
+    function base64ToUint8Array(base64) {
+        const binaryString = atob(base64);
+        const len = binaryString.length;
+        const bytes = new Uint8Array(len);
+        for (let i = 0; i < len; i++) {
+            bytes[i] = binaryString.charCodeAt(i);
+        }
+        return bytes;
+    }
+    function run_wasm() {
+        const base64Wasm = `AGFzbQEAAAABJQdgAnx/AXxgAX8AYAABf2AAAGABfwF/YAN/f38Bf2ADf35/AX4D
+Hx4DAAAAAAAAAAAAAAAAAQIDAgICAQECAwQBBAEEAgMEBQFwAQEBBQYBAYICggIG
+FwR/AUGAgAQLfwFBAAt/AUEAC38BQQALB9oDGAZtZW1vcnkCABFfX3dhc21fY2Fs
+bF9jdG9ycwAAEWNvbnZlcnROYW5vc2Vjb25kAAESY29udmVydE1pbGxpc2Vjb25k
+AAISY29udmVydE1pY3Jvc2Vjb25kAAMNY29udmVydFNlY29uZAAEDWNvbnZlcnRN
+aW51dGUABQtjb252ZXJ0SG91cgAGCmNvbnZlcnREYXkABwtjb252ZXJ0V2VlawAI
+DGNvbnZlcnRNb250aAAJC2NvbnZlcnRZZWFyAAoNY29udmVydERlY2FkZQALDmNv
+bnZlcnRDZW50dXJ5AAwZX19pbmRpcmVjdF9mdW5jdGlvbl90YWJsZQEAD19fZnVu
+Y3Nfb25fZXhpdAAdBmZmbHVzaAAZFWVtc2NyaXB0ZW5fc3RhY2tfaW5pdAAPGWVt
+c2NyaXB0ZW5fc3RhY2tfZ2V0X2ZyZWUAEBllbXNjcmlwdGVuX3N0YWNrX2dldF9i
+YXNlABEYZW1zY3JpcHRlbl9zdGFja19nZXRfZW5kABIZX2Vtc2NyaXB0ZW5fc3Rh
+Y2tfcmVzdG9yZQAaF19lbXNjcmlwdGVuX3N0YWNrX2FsbG9jABscZW1zY3JpcHRl
+bl9zdGFja19nZXRfY3VycmVudAAcCuA3HgQAEA8LnAQCB38kfCMAIQJBICEDIAIg
+A2shBCAEIAA5AxAgBCABNgIMIAQoAgwhBUF/IQYgBSAGaiEHQQshCCAHIAhLGgJA
+AkACQAJAAkACQAJAAkACQAJAAkACQAJAAkAgBw4MAAECAwQFBgcICQoLDAsgBCsD
+ECEJIAQgCTkDGAwMCyAEKwMQIQpEAAAAAICELkEhCyAKIAujIQwgBCAMOQMYDAsL
+IAQrAxAhDUQAAAAAAECPQCEOIA0gDqMhDyAEIA85AxgMCgsgBCsDECEQRAAAAABl
+zc1BIREgECARoyESIAQgEjkDGAwJCyAEKwMQIRNEAAAAsI7wK0IhFCATIBSjIRUg
+BCAVOQMYDAgLIAQrAxAhFkQAAADFhTGKQiEXIBYgF6MhGCAEIBg5AxgMBwsgBCsD
+ECEZRAAAwFMkpdNCIRogGSAaoyEbIAQgGzkDGAwGCyAEKwMQIRxEAABIyX8wAUMh
+HSAcIB2jIR4gBCAeOQMYDAULIAQrAxAhH0QAgPDcTawiQyEgIB8gIKMhISAEICE5
+AxgMBAsgBCsDECEiRADQDaBdA1xDISMgIiAjoyEkIAQgJDkDGAwDCyAEKwMQISVE
+AKIIhBqCkUMhJiAlICajIScgBCAnOQMYDAILIAQrAxAhKETAYYPZ0wDGQyEpICgg
+KaMhKiAEICo5AxgMAQtEAAAAAAAA+H8hKyAEICs5AxgLIAQrAxghLCAsDwucBAIH
+fyR8IwAhAkEgIQMgAiADayEEIAQgADkDECAEIAE2AgwgBCgCDCEFQX8hBiAFIAZq
+IQdBCyEIIAcgCEsaAkACQAJAAkACQAJAAkACQAJAAkACQAJAAkACQCAHDgwAAQID
+BAUGBwgJCgsMCyAEKwMQIQlEAAAAAICELkEhCiAJIAqiIQsgBCALOQMYDAwLIAQr
+AxAhDCAEIAw5AxgMCwsgBCsDECENRAAAAAAAQI9AIQ4gDSAOoiEPIAQgDzkDGAwK
+CyAEKwMQIRBEAAAAAABAj0AhESAQIBGjIRIgBCASOQMYDAkLIAQrAxAhE0QAAAAA
+AEztQCEUIBMgFKMhFSAEIBU5AxgMCAsgBCsDECEWRAAAAABAd0tBIRcgFiAXoyEY
+IAQgGDkDGAwHCyAEKwMQIRlEAAAAAHCZlEEhGiAZIBqjIRsgBCAbOQMYDAYLIAQr
+AxAhHEQAAAAAQgbCQSEdIBwgHaMhHiAEIB45AxgMBQsgBCsDECEfRAAAACCDlONB
+ISAgHyAgoyEhIAQgITkDGAwECyAEKwMQISJEAAAA1LhfHUIhIyAiICOjISQgBCAk
+OQMYDAMLIAQrAxAhJUQAAICE01tSQiEmICUgJqMhJyAEICc5AxgMAgsgBCsDECEo
+RAAAoGXI8oZCISkgKCApoyEqIAQgKjkDGAwBC0QAAAAAAAD4fyErIAQgKzkDGAsg
+BCsDGCEsICwPC5wEAgd/JHwjACECQSAhAyACIANrIQQgBCAAOQMQIAQgATYCDCAE
+KAIMIQVBfyEGIAUgBmohB0ELIQggByAISxoCQAJAAkACQAJAAkACQAJAAkACQAJA
+AkACQAJAIAcODAABAgMEBQYHCAkKCwwLIAQrAxAhCUQAAAAAAECPQCEKIAkgCqIh
+CyAEIAs5AxgMDAsgBCsDECEMRAAAAAAAQI9AIQ0gDCANoyEOIAQgDjkDGAwLCyAE
+KwMQIQ8gBCAPOQMYDAoLIAQrAxAhEEQAAAAAgIQuQSERIBAgEaMhEiAEIBI5AxgM
+CQsgBCsDECETRAAAAAA4nIxBIRQgEyAUoyEVIAQgFTkDGAwICyAEKwMQIRZEAAAA
+gHTS6kEhFyAWIBejIRggBCAYOQMYDAcLIAQrAxAhGUQAAABg1x00QiEaIBkgGqMh
+GyAEIBs5AxgMBgsgBCsDECEcRAAAAHQcmmFCIR0gHCAdoyEeIAQgHjkDGAwFCyAE
+KwMQIR9EAABADQgfg0IhICAfICCjISEgBCAhOQMYDAQLIAQrAxAhIkQAAAh/eq+8
+QiEjICIgI6MhJCAEICQ5AxgMAwsgBCsDECElRAAAZY+s7fFCISYgJSAmoyEnIAQg
+JzkDGAwCCyAEKwMQIShEAEA+sxdpJkMhKSAoICmjISogBCAqOQMYDAELRAAAAAAA
+APh/ISsgBCArOQMYCyAEKwMYISwgLA8LnAQCB38kfCMAIQJBICEDIAIgA2shBCAE
+IAA5AxAgBCABNgIMIAQoAgwhBUF/IQYgBSAGaiEHQQshCCAHIAhLGgJAAkACQAJA
+AkACQAJAAkACQAJAAkACQAJAAkAgBw4MAAECAwQFBgcICQoLDAsgBCsDECEJRAAA
+AABlzc1BIQogCSAKoiELIAQgCzkDGAwMCyAEKwMQIQxEAAAAAICELkEhDSAMIA2i
+IQ4gBCAOOQMYDAsLIAQrAxAhD0QAAAAAAECPQCEQIA8gEKIhESAEIBE5AxgMCgsg
+BCsDECESIAQgEjkDGAwJCyAEKwMQIRNEAAAAAAAATkAhFCATIBSjIRUgBCAVOQMY
+DAgLIAQrAxAhFkQAAAAAACCsQCEXIBYgF6MhGCAEIBg5AxgMBwsgBCsDECEZRAAA
+AAAAGPVAIRogGSAaoyEbIAQgGzkDGAwGCyAEKwMQIRxEAAAAAAB1IkEhHSAcIB2j
+IR4gBCAeOQMYDAULIAQrAxAhH0QAAAAA0AxEQSEgIB8gIKMhISAEICE5AxgMBAsg
+BCsDECEiRAAAAAAyFH5BISMgIiAjoyEkIAQgJDkDGAwDCyAEKwMQISVEAAAAQJ/M
+skEhJiAlICajIScgBCAnOQMYDAILIAQrAxAhKEQAAAAQx3/nQSEpICggKaMhKiAE
+ICo5AxgMAQtEAAAAAAAA+H8hKyAEICs5AxgLIAQrAxghLCAsDwucBAIHfyR8IwAh
+AkEgIQMgAiADayEEIAQgADkDECAEIAE2AgwgBCgCDCEFQX8hBiAFIAZqIQdBCyEI
+IAcgCEsaAkACQAJAAkACQAJAAkACQAJAAkACQAJAAkACQCAHDgwAAQIDBAUGBwgJ
+CgsMCyAEKwMQIQlEAAAAsI7wK0IhCiAJIAqiIQsgBCALOQMYDAwLIAQrAxAhDEQA
+AAAAOJyMQSENIAwgDaIhDiAEIA45AxgMCwsgBCsDECEPRAAAAAAATO1AIRAgDyAQ
+oiERIAQgETkDGAwKCyAEKwMQIRJEAAAAAAAATkAhEyASIBOiIRQgBCAUOQMYDAkL
+IAQrAxAhFSAEIBU5AxgMCAsgBCsDECEWRAAAAAAAAE5AIRcgFiAXoyEYIAQgGDkD
+GAwHCyAEKwMQIRlEAAAAAACAlkAhGiAZIBqjIRsgBCAbOQMYDAYLIAQrAxAhHEQA
+AAAAALDDQCEdIBwgHaMhHiAEIB45AxgMBQsgBCsDECEfRAAAAAAAY+VAISAgHyAg
+oyEhIAQgITkDGAwECyAEKwMQISJEAAAAAEAKIEEhIyAiICOjISQgBCAkOQMYDAML
+IAQrAxAhJUQAAAAA0AxUQSEmICUgJqMhJyAEICc5AxgMAgsgBCsDECEoRAAAAAAE
+EIlBISkgKCApoyEqIAQgKjkDGAwBC0QAAAAAAAD4fyErIAQgKzkDGAsgBCsDGCEs
+ICwPC5wEAgd/JHwjACECQSAhAyACIANrIQQgBCAAOQMQIAQgATYCDCAEKAIMIQVB
+fyEGIAUgBmohB0ELIQggByAISxoCQAJAAkACQAJAAkACQAJAAkACQAJAAkACQAJA
+IAcODAABAgMEBQYHCAkKCwwLIAQrAxAhCUQAAADFhTGKQiEKIAkgCqIhCyAEIAs5
+AxgMDAsgBCsDECEMRAAAAIB00upBIQ0gDCANoiEOIAQgDjkDGAwLCyAEKwMQIQ9E
+AAAAAEB3S0EhECAPIBCiIREgBCAROQMYDAoLIAQrAxAhEkQAAAAAACCsQCETIBIg
+E6IhFCAEIBQ5AxgMCQsgBCsDECEVRAAAAAAAAE5AIRYgFSAWoiEXIAQgFzkDGAwI
+CyAEKwMQIRggBCAYOQMYDAcLIAQrAxAhGUQAAAAAAAA4QCEaIBkgGqMhGyAEIBs5
+AxgMBgsgBCsDECEcRAAAAAAAAGVAIR0gHCAdoyEeIAQgHjkDGAwFCyAEKwMQIR9E
+AAAAAADQhkAhICAfICCjISEgBCAhOQMYDAQLIAQrAxAhIkQAAAAAABzBQCEjICIg
+I6MhJCAEICQ5AxgMAwsgBCsDECElRAAAAAAAY/VAISYgJSAmoyEnIAQgJzkDGAwC
+CyAEKwMQIShEAAAAAMC7KkEhKSAoICmjISogBCAqOQMYDAELRAAAAAAAAPh/ISsg
+BCArOQMYCyAEKwMYISwgLA8LnAQCB38kfCMAIQJBICEDIAIgA2shBCAEIAA5AxAg
+BCABNgIMIAQoAgwhBUF/IQYgBSAGaiEHQQshCCAHIAhLGgJAAkACQAJAAkACQAJA
+AkACQAJAAkACQAJAAkAgBw4MAAECAwQFBgcICQoLDAsgBCsDECEJRAAAwFMkpdNC
+IQogCSAKoiELIAQgCzkDGAwMCyAEKwMQIQxEAAAAYNcdNEIhDSAMIA2iIQ4gBCAO
+OQMYDAsLIAQrAxAhD0QAAAAAcJmUQSEQIA8gEKIhESAEIBE5AxgMCgsgBCsDECES
+RAAAAAAAGPVAIRMgEiAToiEUIAQgFDkDGAwJCyAEKwMQIRVEAAAAAACAlkAhFiAV
+IBaiIRcgBCAXOQMYDAgLIAQrAxAhGEQAAAAAAAA4QCEZIBggGaIhGiAEIBo5AxgM
+BwsgBCsDECEbIAQgGzkDGAwGCyAEKwMQIRxEAAAAAAAAHEAhHSAcIB2jIR4gBCAe
+OQMYDAULIAQrAxAhH0SYbhKDwGo+QCEgIB8gIKMhISAEICE5AxgMBAsgBCsDECEi
+RAAAAAAA0HZAISMgIiAjoyEkIAQgJDkDGAwDCyAEKwMQISVEAAAAAACErEAhJiAl
+ICajIScgBCAnOQMYDAILIAQrAxAhKEQAAAAAgNLhQCEpICggKaMhKiAEICo5AxgM
+AQtEAAAAAAAA+H8hKyAEICs5AxgLIAQrAxghLCAsDwucBAIHfyR8IwAhAkEgIQMg
+AiADayEEIAQgADkDECAEIAE2AgwgBCgCDCEFQX8hBiAFIAZqIQdBCyEIIAcgCEsa
+AkACQAJAAkACQAJAAkACQAJAAkACQAJAAkACQCAHDgwAAQIDBAUGBwgJCgsMCyAE
+KwMQIQlEAABIyX8wAUMhCiAJIAqiIQsgBCALOQMYDAwLIAQrAxAhDEQAAAB0HJph
+QiENIAwgDaIhDiAEIA45AxgMCwsgBCsDECEPRAAAAABCBsJBIRAgDyAQoiERIAQg
+ETkDGAwKCyAEKwMQIRJEAAAAAAB1IkEhEyASIBOiIRQgBCAUOQMYDAkLIAQrAxAh
+FUQAAAAAALDDQCEWIBUgFqIhFyAEIBc5AxgMCAsgBCsDECEYRAAAAAAAAGVAIRkg
+GCAZoiEaIAQgGjkDGAwHCyAEKwMQIRtEAAAAAAAAHEAhHCAbIByiIR0gBCAdOQMY
+DAYLIAQrAxAhHiAEIB45AxgMBQsgBCsDECEfROF6FK5HYRFAISAgHyAgoyEhIAQg
+ITkDGAwECyAEKwMQISJE/Knx0k0SSkAhIyAiICOjISQgBCAkOQMYDAMLIAQrAxAh
+JUQzMzMzM0uAQCEmICUgJqMhJyAEICc5AxgMAgsgBCsDECEoRAAAAAAAXrRAISkg
+KCApoyEqIAQgKjkDGAwBC0QAAAAAAAD4fyErIAQgKzkDGAsgBCsDGCEsICwPC5wE
+Agd/JHwjACECQSAhAyACIANrIQQgBCAAOQMQIAQgATYCDCAEKAIMIQVBfyEGIAUg
+BmohB0ELIQggByAISxoCQAJAAkACQAJAAkACQAJAAkACQAJAAkACQAJAIAcODAAB
+AgMEBQYHCAkKCwwLIAQrAxAhCUQAgPDcTawiQyEKIAkgCqIhCyAEIAs5AxgMDAsg
+BCsDECEMRAAAQA0IH4NCIQ0gDCANoiEOIAQgDjkDGAwLCyAEKwMQIQ9EAAAAIIOU
+40EhECAPIBCiIREgBCAROQMYDAoLIAQrAxAhEkQAAAAA0AxEQSETIBIgE6IhFCAE
+IBQ5AxgMCQsgBCsDECEVRAAAAAAAY+VAIRYgFSAWoiEXIAQgFzkDGAwICyAEKwMQ
+IRhEAAAAAADQhkAhGSAYIBmiIRogBCAaOQMYDAcLIAQrAxAhG0SYbhKDwGo+QCEc
+IBsgHKIhHSAEIB05AxgMBgsgBCsDECEeROF6FK5HYRFAIR8gHiAfoiEgIAQgIDkD
+GAwFCyAEKwMQISEgBCAhOQMYDAQLIAQrAxAhIkQAAAAAAAAoQCEjICIgI6MhJCAE
+ICQ5AxgMAwsgBCsDECElRAAAAAAAAF5AISYgJSAmoyEnIAQgJzkDGAwCCyAEKwMQ
+IShEAAAAAADAkkAhKSAoICmjISogBCAqOQMYDAELRAAAAAAAAPh/ISsgBCArOQMY
+CyAEKwMYISwgLA8LnAQCB38kfCMAIQJBICEDIAIgA2shBCAEIAA5AxAgBCABNgIM
+IAQoAgwhBUF/IQYgBSAGaiEHQQshCCAHIAhLGgJAAkACQAJAAkACQAJAAkACQAJA
+AkACQAJAAkAgBw4MAAECAwQFBgcICQoLDAsgBCsDECEJRADQDaBdA1xDIQogCSAK
+oiELIAQgCzkDGAwMCyAEKwMQIQxEAAAIf3qvvEIhDSAMIA2iIQ4gBCAOOQMYDAsL
+IAQrAxAhD0QAAADUuF8dQiEQIA8gEKIhESAEIBE5AxgMCgsgBCsDECESRAAAAAAy
+FH5BIRMgEiAToiEUIAQgFDkDGAwJCyAEKwMQIRVEAAAAAEAKIEEhFiAVIBaiIRcg
+BCAXOQMYDAgLIAQrAxAhGEQAAAAAABzBQCEZIBggGaIhGiAEIBo5AxgMBwsgBCsD
+ECEbRAAAAAAA0HZAIRwgGyAcoiEdIAQgHTkDGAwGCyAEKwMQIR5EmEwVjEoSSkAh
+HyAeIB+iISAgBCAgOQMYDAULIAQrAxAhIUQAAAAAAAAoQCEiICEgIqIhIyAEICM5
+AxgMBAsgBCsDECEkIAQgJDkDGAwDCyAEKwMQISVEAAAAAAAAJEAhJiAlICajIScg
+BCAnOQMYDAILIAQrAxAhKEQAAAAAAABZQCEpICggKaMhKiAEICo5AxgMAQtEAAAA
+AAAA+H8hKyAEICs5AxgLIAQrAxghLCAsDwucBAIHfyR8IwAhAkEgIQMgAiADayEE
+IAQgADkDECAEIAE2AgwgBCgCDCEFQX8hBiAFIAZqIQdBCyEIIAcgCEsaAkACQAJA
+AkACQAJAAkACQAJAAkACQAJAAkACQCAHDgwAAQIDBAUGBwgJCgsMCyAEKwMQIQlE
+AKIIhBqCkUMhCiAJIAqiIQsgBCALOQMYDAwLIAQrAxAhDEQAAGWPrO3xQiENIAwg
+DaIhDiAEIA45AxgMCwsgBCsDECEPRAAAgITTW1JCIRAgDyAQoiERIAQgETkDGAwK
+CyAEKwMQIRJEAAAAQJ/MskEhEyASIBOiIRQgBCAUOQMYDAkLIAQrAxAhFUQAAAAA
+0AxUQSEWIBUgFqIhFyAEIBc5AxgMCAsgBCsDECEYRAAAAAAAY/VAIRkgGCAZoiEa
+IAQgGjkDGAwHCyAEKwMQIRtEAAAAAACErEAhHCAbIByiIR0gBCAdOQMYDAYLIAQr
+AxAhHkQzMzMzM0uAQCEfIB4gH6IhICAEICA5AxgMBQsgBCsDECEhRAAAAAAAAF5A
+ISIgISAioiEjIAQgIzkDGAwECyAEKwMQISREAAAAAAAAJEAhJSAkICWiISYgBCAm
+OQMYDAMLIAQrAxAhJyAEICc5AxgMAgsgBCsDECEoRAAAAAAAACRAISkgKCApoyEq
+IAQgKjkDGAwBC0QAAAAAAAD4fyErIAQgKzkDGAsgBCsDGCEsICwPC5wEAgd/JHwj
+ACECQSAhAyACIANrIQQgBCAAOQMQIAQgATYCDCAEKAIMIQVBfyEGIAUgBmohB0EL
+IQggByAISxoCQAJAAkACQAJAAkACQAJAAkACQAJAAkACQAJAIAcODAABAgMEBQYH
+CAkKCwwLIAQrAxAhCUSAygoloeLFQyEKIAkgCqIhCyAEIAs5AxgMDAsgBCsDECEM
+RABAPrMXaSZDIQ0gDCANoiEOIAQgDjkDGAwLCyAEKwMQIQ9EAACgZcjyhkIhECAP
+IBCiIREgBCAROQMYDAoLIAQrAxAhEkQAAAAQx3/nQSETIBIgE6IhFCAEIBQ5AxgM
+CQsgBCsDECEVRAAAAAAEEIlBIRYgFSAWoiEXIAQgFzkDGAwICyAEKwMQIRhEAAAA
+AMC7KkEhGSAYIBmiIRogBCAaOQMYDAcLIAQrAxAhG0QAAAAAgNLhQCEcIBsgHKIh
+HSAEIB05AxgMBgsgBCsDECEeRAAAAAAAXrRAIR8gHiAfoiEgIAQgIDkDGAwFCyAE
+KwMQISFEAAAAAADAkkAhIiAhICKiISMgBCAjOQMYDAQLIAQrAxAhJEQAAAAAAABZ
+QCElICQgJaIhJiAEICY5AxgMAwsgBCsDECEnRAAAAAAAACRAISggJyAooiEpIAQg
+KTkDGAwCCyAEKwMQISogBCAqOQMYDAELRAAAAAAAAPh/ISsgBCArOQMYCyAEKwMY
+ISwgLA8LBgAgACQBCwQAIwELEgBBgIAEJANBAEEPakFwcSQCCwcAIwAjAmsLBAAj
+AwsEACMCCwIACwIACwwAQYCABBATQYSABAsIAEGAgAQQFAsEAEEBCwIAC78CAQN/
+AkAgAA0AQQAhAQJAQQAoAoiABEUNAEEAKAKIgAQQGSEBCwJAQQAoAoiABEUNAEEA
+KAKIgAQQGSABciEBCwJAEBUoAgAiAEUNAANAAkACQCAAKAJMQQBODQBBASECDAEL
+IAAQF0UhAgsCQCAAKAIUIAAoAhxGDQAgABAZIAFyIQELAkAgAg0AIAAQGAsgACgC
+OCIADQALCxAWIAEPCwJAAkAgACgCTEEATg0AQQEhAgwBCyAAEBdFIQILAkACQAJA
+IAAoAhQgACgCHEYNACAAQQBBACAAKAIkEQUAGiAAKAIUDQBBfyEBIAJFDQEMAgsC
+QCAAKAIEIgEgACgCCCIDRg0AIAAgASADa6xBASAAKAIoEQYAGgtBACEBIABBADYC
+HCAAQgA3AxAgAEIANwIEIAINAQsgABAYCyABCwYAIAAkAAsSAQJ/IwAgAGtBcHEi
+ASQAIAELBAAjAAu7AQEDf0GMgAQQEwJAQQAoApCABCIARQ0AQQAoApSABCEBA0BB
+ACABQX9qIgI2ApSABAJAIAFBAUgNAANAQQAoApCABCACQQJ0aiICQYQBaigCACEA
+IAJBBGooAgAhAkGMgAQQFCAAIAIRAQBBjIAEEBNBAEEAKAKUgAQiAEF/aiICNgKU
+gAQgAEEASg0AC0EAKAKQgAQhAAsgACgCACEAQSAhAUEAQSA2ApSABEEAIAA2ApCA
+BCAADQALCwsASQ90YXJnZXRfZmVhdHVyZXMEKw9tdXRhYmxlLWdsb2JhbHMrCHNp
+Z24tZXh0Kw9yZWZlcmVuY2UtdHlwZXMrCm11bHRpdmFsdWU=`;
+
+        const wasmBytes = base64ToUint8Array(base64Wasm);
+        WebAssembly.instantiate(wasmBytes, {}).then(results => {
+            wasmExports = results.instance.exports; // Store the WASM exports
+            document.getElementById("convertButton").disabled = false; // Enable the convert button
+        }).catch(err => {
+            console.error("Error loading WebAssembly:", err);
+        });
+
+    }
+
+    window.onload = run_wasm;
+
+    function convertDuration() {
+            var input = parseFloat(document.getElementById('inputField').value);
+            if (isNaN(input)) {
+                document.getElementById('outputField').value = "Invalid input";
+                return;
+            }
+
+            var origUnit = document.getElementById('dropdown1').options[document.getElementById('dropdown1').selectedIndex].text;
+           var outputUnit = document.getElementById('dropdown2').options[document.getElementById('dropdown2').selectedIndex].text;
+
+
+            var outputValue;
+            switch (document.getElementById('dropdown1').value) {
+                case 'nanosecond':
+                    outputValue = wasmExports.convertNanosecond(input, getQuery(document.getElementById('dropdown2').value));
+                    break;
+                case 'microsecond':
+                    outputValue = wasmExports.convertMicrosecond(input, getQuery(document.getElementById('dropdown2').value));
+                    break;
+                case 'millisecond':
+                    outputValue = wasmExports.convertMillisecond(input, getQuery(document.getElementById('dropdown2').value));
+                    break;
+                case 'second':
+                    outputValue = wasmExports.convertSecond(input, getQuery(document.getElementById('dropdown2').value));
+                    break;
+                case 'minute':
+                    outputValue = wasmExports.convertMinute(input, getQuery(document.getElementById('dropdown2').value));
+                    break;
+                case 'hour':
+                    outputValue = wasmExports.convertHour(input, getQuery(document.getElementById('dropdown2').value));
+                    break;
+                case 'day':
+                    outputValue = wasmExports.convertDay(input, getQuery(document.getElementById('dropdown2').value));
+                    break;
+                case 'week':
+                    outputValue = wasmExports.convertWeek(input, getQuery(document.getElementById('dropdown2').value));
+                    break;
+                case 'month':
+                    outputValue = wasmExports.convertMonth(input, getQuery(document.getElementById('dropdown2').value));
+                    break;
+                case 'year':
+                    outputValue = wasmExports.convertYear(input, getQuery(document.getElementById('dropdown2').value));
+                    break;
+                case 'decade':
+                    outputValue = wasmExports.convertDecade(input, getQuery(document.getElementById('dropdown2').value));
+                    break;
+                case 'century':
+                    outputValue = wasmExports.convertCentury(input, getQuery(document.getElementById('dropdown2').value));
+                    break;
+                default:
+                    outputValue = "Error";
+            }
+
+            document.getElementById('outputField').value = outputValue;
+
+            // Save formatted conversion history
+          saveConversionHistory(`${input} ${origUnit} = ${outputValue} ${outputUnit}`);
+        }
+
+        function getQuery(unit){
+                switch (unit) {
+                    case 'nanosecond': return 1;
+                    case 'microsecond': return 2;
+                    case 'millisecond': return 3;
+                    case 'second': return 4;
+                    case 'minute': return 5;
+                    case 'hour': return 6;
+                    case 'day': return 7;
+                    case 'week': return 8;
+                    case 'month': return 9;
+                    case 'year': return 10;
+                    case 'decade': return 11;
+                    case 'century': return 12;
+                    default: return 0;
+                }
+        }
+</script>
+
+</body>
+</html>
+
+<!--trying to get this to commit-->

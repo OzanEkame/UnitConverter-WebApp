@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Angles</title> <!-- change title -->
+    <link rel="stylesheet" href="conversions.css"> <!-- Link to external CSS file -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Lilita+One&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Oswald&display=swap" rel="stylesheet">
+</head>
+<body>
+     <!-- This is the button code for home -->
+     <div class="button-container">
+        <form action="TheConvertinator.html"> <!-- redirects to home page -->
+            <button type="submit" class="home-btn">
+                <i class="fa-solid fa-house"></i> Home <!-- ICON LOGO -->
+            </button>
+        </form>
+        <!--These are the buttons for clearHistory and download History-->
+        <button onclick="clearHistory()">
+            <i class="fas fa-history"></i> Clear History
+        </button>
+        <button onclick="downloadHistory()">
+            <i class="fas fa-download"></i> Download History
+        </button>
+
+    </div>
+    <h1 class="page-title">Angles</h1> <!-- change header -->
+    <div class="outer-block">
+        <!-- Inner block 1 -->
+        <div class="inner-block">
+                <input type="number" id="inputField">
+                <select id="dropdown1" onchange="updateDropdown2()">
+                    <option value="degrees">DEGREES</option> <!-- change options -->
+                    <option value="radians">RADIANS</option>
+                    <option value="arcsecond">ARCSECOND</option>
+                    <option value="gradian">GRADIAN</option>
+                    <option value="milliradian">MILLIRADIAN</option>
+                    <option value="minuteofarc">MINUTE OF ARC</option>
+                </select>
+        </div>
+
+        <span class="equal-sign">=</span>
+
+        <!-- Inner block 2 -->
+        <div class="inner-block">
+            <input type="text" id="outputField">
+            <select id="dropdown2">
+                    <option value="degrees">DEGREES</option> <!-- change options -->
+                    <option value="radians">RADIANS</option>
+                    <option value="arcsecond">ARCSECOND</option>
+                    <option value="gradian">GRADIAN</option>
+                    <option value="milliradian">MILLIRADIAN</option>
+                    <option value="minuteofarc">MINUTE OF ARC</option>
+            </select>
+        </div>
+
+        <!-- Dropdown menu -->
+       
+    </div>
+ <!-- JavaScript to update dropdown -->
+ <script>
+    function updateDropdown2() {
+        const dropdown1 = document.getElementById('dropdown1');
+        const dropdown2 = document.getElementById('dropdown2');
+        const selectedValue = dropdown1.value;
+ 
+ 
+        // Enable all options first
+        Array.from(dropdown2.options).forEach(option => {
+            option.disabled = false;
+        });
+ 
+ 
+        // to disable the selected option in dropdown 2
+        if (selectedValue) {
+            const optionToDisable = dropdown2.querySelector(`option[value='${selectedValue}']`);
+            if (optionToDisable) {
+                optionToDisable.disabled = true;
+            }
+        }
+        // Automatically select the first enabled option in dropdown 2 if the same value is selected
+        if (dropdown2.value === selectedValue) {
+            for (let option of dropdown2.options) {
+                if (!option.disabled) {
+                    dropdown2.value = option.value;
+                    break;
+                }
+            }
+        }
+    }
+   
+ </script>
+
+ <!--conversion button-->
+<div class="convert-btn">
+    <button2 id="convertButton" onclick="convertAngles()" disabled>Convert</button2>
+</div>
+
+<!-- JavaScript File -->
+<script src="history.js"></script>
+
+ <!--Script to integrate WASM-->
+ <script>
+    function base64ToUint8Array(base64) {
+        const binaryString = atob(base64);
+        const len = binaryString.length;
+        const bytes = new Uint8Array(len);
+        for (let i = 0; i < len; i++) {
+            bytes[i] = binaryString.charCodeAt(i);
+        }
+        return bytes;
+    }
+    
+    function run_wasm() {
+        const base64Wasm = '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';
+        const wasmBytes = base64ToUint8Array(base64Wasm);
+        WebAssembly.instantiate(wasmBytes, {}).then(outputValues => {
+            wasmExports = outputValues.instance.exports; // Store the WASM exports
+            document.getElementById("convertButton").disabled = false; // Enable the convert button
+        }).catch(err => {
+            console.error("Error loading WebAssembly:", err);
+        });
+    }
+        window.onload = run_wasm;
+
+        function convertAngles(){
+            var input = parseFloat(document.getElementById('inputField').value);
+            if(isNaN(input)){
+                document.getElementById('outputField').value = "Invalid input";
+                return; 
+            }
+            var origUnit = document.getElementById('dropdown1').options[document.getElementById('dropdown1').selectedIndex].text;
+           var outputUnit = document.getElementById('dropdown2').options[document.getElementById('dropdown2').selectedIndex].text;                       
+            
+            var outputValue;
+
+            switch (document.getElementById('dropdown1').value) {
+                case 'degrees':
+                    outputValue = wasmExports.ConvertFromDegrees(input, getQuery(document.getElementById('dropdown2').value));
+
+                    break;
+                case 'radians':
+                    outputValue = wasmExports.ConvertFromRadians(input, getQuery(document.getElementById('dropdown2').value));
+
+                    break;
+                case 'arcsecond':
+                    outputValue = wasmExports.ConvertFromArcsecond(input, getQuery(document.getElementById('dropdown2').value));
+
+                    break;
+                case 'gradian':
+                    outputValue = wasmExports.ConvertFromGradian(input, getQuery(document.getElementById('dropdown2').value));
+
+                    break;
+                case 'milliradian':
+                    outputValue = wasmExports.ConvertFromMilliradian(input, getQuery(document.getElementById('dropdown2').value));
+
+                    break;
+                case 'minuteofarc':
+                    outputValue = wasmExports.ConvertFromMinuteOfArc(input, getQuery(document.getElementById('dropdown2').value));
+
+                    break;
+                default:
+                    outputValue = "unknown unit";
+            }
+            document.getElementById('outputField').value = outputValue;
+            document.getElementById("convertButton").addEventListener("click", convertAngles);
+
+          // Save formatted conversion history
+          saveConversionHistory(`${input} ${origUnit} = ${outputValue} ${outputUnit}`);  
+        }
+
+        function getQuery(unit){
+            switch (unit) {
+                case 'degrees': return 1;
+                case 'radians': return 2;
+                case 'arcsecond': return 3;
+                case 'gradian': return 4;
+                case 'milliradian': return 5;
+                case 'minuteofarc': return 6;
+                default: return 0;
+            }
+        }
+ </script>
+</body>
+</html>

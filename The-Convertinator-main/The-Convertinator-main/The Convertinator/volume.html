@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Volume</title> <!-- change title -->
+    <link rel="stylesheet" href="conversions.css"> <!-- Link to external CSS file -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Lilita+One&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Oswald&display=swap" rel="stylesheet">
+</head>
+<body>
+     <!-- This is the button code for home -->
+     <div class="button-container">
+        <form action="TheConvertinator.html"> <!-- redirects to home page -->
+            <button type="submit" class="home-btn">
+                <i class="fa-solid fa-house"></i> Home <!-- ICON LOGO -->
+            </button>
+        </form>
+        <button onclick="clearHistory()">
+            <i class="fas fa-history"></i> Clear History
+        </button>
+        <button onclick="downloadHistory()">
+            <i class="fas fa-download"></i> Download History
+        </button> 
+    </div>
+    <h1 class="page-title">Volume</h1> <!-- change header -->
+    <div class="outer-block">
+        <!-- Inner block 1 -->
+        <div class="inner-block">
+                <input type="number" id="inputField">
+                <select id="dropdown1" onchange="updateDropdown2()">
+                    <option value="usliquidgallon">US LIQUID GALLON</option> <!-- change options -->
+                    <option value="usliquidquart">US LIQUID QUART</option>
+                    <option value="usliquidpint">US LIQUID PINT</option>
+                    <option value="uslegalcup">US LEGAL CUP</option>
+                    <option value="usfluidounce">US FLUID OUNCE</option>
+                    <option value="ustablespoon">US TABLESPOON</option>
+                    <option value="usteaspoon">US TEASPOON</option>
+                    <option value="cubicmeter">CUBIC METER</option>
+                    <option value="liter">LITER</option>
+                    <option value="milliliter">MILLILITER</option>
+                    <option value="imperialgallon">IMPERIAL GALLON</option>
+                    <option value="imperialquart">IMPERIAL QUART</option>
+                    <option value="imperialpint">IMPERIAL PINT</option>
+                    <option value="imperialcup">IMPERIAL CUP</option>
+                    <option value="imperialfluidounce">IMPERIAL FLUID OUNCE</option>
+                    <option value="imperialtablespoon">IMPERIAL TABLESPOON</option>
+                    <option value="imperialteaspoon">IMPERIAL TEASPOON</option>
+                    <option value="cubicfoot">CUBIC FOOT</option>
+                    <option value="cubicinch">CUBIC INCH</option>
+                </select>
+        </div>
+
+        <span class="equal-sign">=</span>
+
+        <!-- Inner block 2 -->
+        <div class="inner-block">
+            <input type="text" id="outputField">
+            <select id="dropdown2">
+                <option value="usliquidgallon">US LIQUID GALLON</option> <!-- change options -->
+                <option value="usliquidquart">US LIQUID QUART</option>
+                <option value="usliquidpint">US LIQUID PINT</option>
+                <option value="uslegalcup">US LEGAL CUP</option>
+                <option value="usfluidounce">US FLUID OUNCE</option>
+                <option value="ustablespoon">US TABLESPOON</option>
+                <option value="usteaspoon">US TEASPOON</option>
+                <option value="cubicmeter">CUBIC METER</option>
+                <option value="liter">LITER</option>
+                <option value="milliliter">MILLILITER</option>
+                <option value="imperialgallon">IMPERIAL GALLON</option>
+                <option value="imperialquart">IMPERIAL QUART</option>
+                <option value="imperialpint">IMPERIAL PINT</option>
+                <option value="imperialcup">IMPERIAL CUP</option>
+                <option value="imperialfluidounce">IMPERIAL FLUID OUNCE</option>
+                <option value="imperialtablespoon">IMPERIAL TABLESPOON</option>
+                <option value="imperialteaspoon">IMPERIAL TEASPOON</option>
+                <option value="cubicfoot">CUBIC FOOT</option>
+                <option value="cubicinch">CUBIC INCH</option>
+            </select>
+        </div>
+
+        <!-- Dropdown menu -->
+       
+    </div>
+<!-- JavaScript to update dropdown -->
+<script>
+    function updateDropdown2() {
+        const dropdown1 = document.getElementById('dropdown1');
+        const dropdown2 = document.getElementById('dropdown2');
+        const selectedValue = dropdown1.value;
+ 
+ 
+        // Enable all options first
+        Array.from(dropdown2.options).forEach(option => {
+            option.disabled = false;
+        });
+ 
+ 
+        // to disable the selected option in dropdown 2
+        if (selectedValue) {
+            const optionToDisable = dropdown2.querySelector(`option[value='${selectedValue}']`);
+            if (optionToDisable) {
+                optionToDisable.disabled = true;
+            }
+        }
+        // Automatically select the first enabled option in dropdown 2 if the same value is selected
+        if (dropdown2.value === selectedValue) {
+            for (let option of dropdown2.options) {
+                if (!option.disabled) {
+                    dropdown2.value = option.value;
+                    break;
+                }
+            }
+        }
+    }
+ </script>
+
+ <!--conversion button-->
+<div class="convert-btn">
+    <button2 id="convertButton" onclick="convertVolume()" disabled>Convert</button2>
+</div>
+<!-- JavaScript File -->
+<script src="history.js"></script>
+<!--Script to integrate WASM-->
+
+<script>
+    function base64ToUint8Array(base64) {
+        const binaryString = atob(base64);
+        const len = binaryString.length;
+        const bytes = new Uint8Array(len);
+        for (let i = 0; i < len; i++) {
+            bytes[i] = binaryString.charCodeAt(i);
+        }
+        return bytes;
+    }
+
+    function run_wasm() {
+        const base64Wasm = `AGFzbQEAAAABJQdgAnx/AXxgAX8AYAABf2AAAGABfwF/YAN/f38Bf2ADf35/AX4D
+JiUDAAAAAAAAAAAAAAAAAAAAAAAAAAECAwICAgEBAgMEAQQBBAIDBAUBcAEBAQUG
+AQGCAoICBhcEfwFBgIAEC38BQQALfwFBAAt/AUEACwfxBR8GbWVtb3J5AgARX193
+YXNtX2NhbGxfY3RvcnMAABNDb252ZXJ0RnJvbVVTR2FsbG9uAAESQ29udmVydEZy
+b21VU1F1YXJ0AAIRQ29udmVydEZyb21VU1BpbnQAAxVDb252ZXJ0RnJvbVVTTGVn
+YWxDdXAABBdDb252ZXJ0RnJvbVVTRmx1aWRPdW5jZQAFF0NvbnZlcnRGcm9tVVNU
+YWJsZXNwb29uAAYVQ29udmVydEZyb21VU1RlYXNwb29uAAcVQ29udmVydEZyb21D
+dWJpY01ldGVyAAgQQ29udmVydEZyb21MaXRlcgAJFUNvbnZlcnRGcm9tTWlsbGls
+aXRlcgAKGUNvbnZlcnRGcm9tSW1wZXJpYWxHYWxsb24ACxhDb252ZXJ0RnJvbUlt
+cGVyaWFsUXVhcnQADBdDb252ZXJ0RnJvbUltcGVyaWFsUGludAANFkNvbnZlcnRG
+cm9tSW1wZXJpYWxDdXAADh1Db252ZXJ0RnJvbUltcGVyaWFsRmx1aWRPdW5jZQAP
+HUNvbnZlcnRGcm9tSW1wZXJpYWxUYWJsZXNwb29uABAbQ29udmVydEZyb21JbXBl
+cmlhbFRlYXNwb29uABEUQ29udmVydEZyb21DdWJpY0Zvb3QAEhRDb252ZXJ0RnJv
+bUN1YmljSW5jaAATGV9faW5kaXJlY3RfZnVuY3Rpb25fdGFibGUBAA9fX2Z1bmNz
+X29uX2V4aXQAJAZmZmx1c2gAIBVlbXNjcmlwdGVuX3N0YWNrX2luaXQAFhllbXNj
+cmlwdGVuX3N0YWNrX2dldF9mcmVlABcZZW1zY3JpcHRlbl9zdGFja19nZXRfYmFz
+ZQAYGGVtc2NyaXB0ZW5fc3RhY2tfZ2V0X2VuZAAZGV9lbXNjcmlwdGVuX3N0YWNr
+X3Jlc3RvcmUAIRdfZW1zY3JpcHRlbl9zdGFja19hbGxvYwAiHGVtc2NyaXB0ZW5f
+c3RhY2tfZ2V0X2N1cnJlbnQAIwrwfCUEABAWC6YGAgd/OXwjACECQSAhAyACIANr
+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
+ZQ==`;
+
+        const wasmBytes = base64ToUint8Array(base64Wasm);
+        WebAssembly.instantiate(wasmBytes, {}).then(outputValues => {
+            wasmExports = outputValues.instance.exports; // Store the WASM exports
+            document.getElementById("convertButton").disabled = false; // Enable the convert button
+        }).catch(err => {
+            console.error("Error loading WebAssembly:", err);
+        });
+    }
+        
+        window.onload = run_wasm;
+
+        function convertVolume(){
+            var input = parseFloat(document.getElementById('inputField').value);
+            if(isNaN(input)){
+                document.getElementById('outputField').value = "Invalid input";
+                return; 
+            }
+            var origUnit = document.getElementById('dropdown1').options[document.getElementById('dropdown1').selectedIndex].text;
+            var outputUnit = document.getElementById('dropdown2').options[document.getElementById('dropdown2').selectedIndex].text;
+
+            
+            var outputValue;
+
+            switch (document.getElementById('dropdown1').value) {
+                case 'usliquidgallon':
+                    outputValue = wasmExports.ConvertFromUSGallon(input, getQuery(document.getElementById('dropdown2').value));
+                    break;
+                case 'usliquidquart':
+                    outputValue = wasmExports.ConvertFromUSQuart(input, getQuery(document.getElementById('dropdown2').value));
+                    break;
+                case 'usliquidpint':
+                    outputValue = wasmExports.ConvertFromUSPint(input, getQuery(document.getElementById('dropdown2').value));
+                    break;
+                case 'uslegalcup':
+                    outputValue = wasmExports.ConvertFromUSLegalCup(input, getQuery(document.getElementById('dropdown2').value));
+                    break;
+                case 'usfluidounce':
+                    outputValue = wasmExports.ConvertFromUSFluidOunce(input, getQuery(document.getElementById('dropdown2').value));
+                    break;
+                case 'ustablespoon':
+                    outputValue = wasmExports.ConvertFromUSTablespoon(input, getQuery(document.getElementById('dropdown2').value));
+                    break;
+                case 'usteaspoon':
+                    outputValue = wasmExports.ConvertFromUSTeaspoon(input, getQuery(document.getElementById('dropdown2').value));
+                    break;
+                case 'cubicmeter':
+                    outputValue = wasmExports.ConvertFromCubicMeter(input, getQuery(document.getElementById('dropdown2').value));
+                    break;
+                case 'liter':
+                    outputValue = wasmExports.ConvertFromLiter(input, getQuery(document.getElementById('dropdown2').value));
+                    break;
+                case 'milliliter':
+                    outputValue = wasmExports.ConvertFromMilliliter(input, getQuery(document.getElementById('dropdown2').value));
+                    break;
+                case 'imperialgallon':
+                    outputValue = wasmExports.ConvertFromImperialGallon(input, getQuery(document.getElementById('dropdown2').value));
+                    break;
+                case 'imperialquart':
+                    outputValue = wasmExports.ConvertFromImperialQuart(input, getQuery(document.getElementById('dropdown2').value));
+                    break;
+                case 'imperialpint':
+                    outputValue = wasmExports.ConvertFromImperialPint(input, getQuery(document.getElementById('dropdown2').value));
+                    break;
+                case 'imperialcup':
+                    outputValue = wasmExports.ConvertFromImperialCup(input, getQuery(document.getElementById('dropdown2').value));
+                    break;
+                case 'imperialfluidounce':
+                    outputValue = wasmExports.ConvertFromImperialFluidOunce(input, getQuery(document.getElementById('dropdown2').value));
+                    break;
+                case 'imperialtablespoon':
+                    outputValue = wasmExports.ConvertFromImperialTablespoon(input, getQuery(document.getElementById('dropdown2').value));
+                    break;
+                case 'imperialteaspoon':
+                    outputValue = wasmExports.ConvertFromImperialTeaspoon(input, getQuery(document.getElementById('dropdown2').value));
+                    break;
+                case 'cubicfoot':
+                    outputValue = wasmExports.ConvertFromCubicFoot(input, getQuery(document.getElementById('dropdown2').value));
+                    break;
+                case 'cubicinch':
+                    outputValue = wasmExports.ConvertFromCubicInch(input, getQuery(document.getElementById('dropdown2').value));
+                    break;
+                default:
+                    outputValue = "Error";
+            }
+            document.getElementById('outputField').value = outputValue;
+           
+
+            // Save formatted conversion history
+           saveConversionHistory(`${input} ${origUnit} = ${outputValue} ${outputUnit}`);
+           document.getElementById("convertButton").addEventListener("click", convertVolume);
+
+        }
+
+        function getQuery(unit){
+            switch (unit) {
+                case 'usliquidgallon': return 1;
+                case 'usliquidquart': return 2;
+                case 'usliquidpint': return 3;
+                case 'uslegalcup': return 4;
+                case 'usfluidounce': return 5;
+                case 'ustablespoon': return 6;
+                case 'usteaspoon': return 7;
+                case 'cubicmeter': return 8;
+                case 'liter': return 9;
+                case 'milliliter': return 10;
+                case 'imperialgallon': return 11;
+                case 'imperialquart': return 12;
+                case 'imperialpint': return 13;
+                case 'imperialcup': return 14;
+                case 'imperialfluidounce': return 15;
+                case 'imperialtablespoon': return 16;
+                case 'imperialteaspoon': return 17;
+                case 'cubicfoot': return 18;
+                case 'cubicinch': return 19;
+                default: return 0;
+            }
+        }
+</script>
+
+</body>
+</html>

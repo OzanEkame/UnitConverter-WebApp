@@ -1,0 +1,105 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title> The Convertinator</title>
+    <link rel="stylesheet" href="projectStyle.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Lilita+One&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Oswald&display=swap" rel="stylesheet">
+    <style>
+        .popup {
+            font-family: 'Oswald';
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 20px;
+            background: white;
+            border: 1px solid #ccc;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+            .popup.active {
+                display: block;
+            }
+    </style>
+</head>
+
+<body>
+    <div class="title-container">
+        <h1>The Convertinator</h1>
+    </div>
+
+    <!-- Button container -->
+    <div class="button-container-for-home">
+        <form action="TheConvertinator.html"> <!-- redirects to home page -->
+            <button type="submit" class="home-btn">
+                <i class="fa-solid fa-house"></i> Home <!-- ICON LOGO -->
+            </button>
+        </form>
+    </div>
+        <button onclick="showHistory()">
+            <i class="fas fa-history"></i> Show History
+        </button>
+        <button onclick="downloadHistory()">
+            <i class="fas fa-download"></i> Download History
+        </button>
+    </div>
+
+    <!-- Icon Grid Container -->
+    <div class="container">
+        <div class="icon-grid">
+            <!-- Existing icon links go here -->
+        </div>
+    </div>
+
+    <!-- History Pop-up -->
+    <div id="history-popup" class="popup">
+        <h3>Calculation History</h3>
+        <ul id="history-list"></ul>
+        <button onclick="closePopup()">Close</button>
+    </div>
+
+    <script>
+        // Initialize history array
+        let history = JSON.parse(localStorage.getItem("conversionHistory")) || [];
+
+        // Show history in a pop-up
+        function showHistory() {
+            const popup = document.getElementById("history-popup");
+            const historyList = document.getElementById("history-list");
+            historyList.innerHTML = "";
+
+            history.forEach((entry) => {
+                const li = document.createElement("li");
+                li.innerText = entry;
+                historyList.appendChild(li);
+            });
+
+            popup.classList.add("active");
+        }
+
+        // Close the pop-up
+        function closePopup() {
+            document.getElementById("history-popup").classList.remove("active");
+        }
+
+        // Download history as a file
+        function downloadHistory() {
+            const blob = new Blob([history.join("\n")], { type: "text/plain" });
+            const link = document.createElement("a");
+            link.href = URL.createObjectURL(blob);
+            link.download = "conversion_history.txt";
+            link.click();
+        }
+
+        // Example: Save to history (link these to actual conversions in your code)
+        function saveHistory(entry) {
+            history.push(entry);
+            localStorage.setItem("conversionHistory", JSON.stringify(history));
+        }
+    </script>
+</body>
+</html>
+

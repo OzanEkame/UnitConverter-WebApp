@@ -1,0 +1,142 @@
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Lilita One', sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #ffffff;
+    padding: 20px;
+}
+
+.page-title {
+    font-size: 5vw;
+    color: #4f1976;
+    margin-bottom: 50px;
+}
+
+/* Layout for custom container */
+.custom-container {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 20px;
+    max-width: 80%;
+    justify-content: space-between;
+}
+
+.column {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.input-group, .button-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+input {
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.button_convert.convert-btn {
+    background-color: #4f1976;
+    color: white;
+    font-family: 'Lilita One', sans-serif;
+    font-size: 1.2rem;
+    padding: 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+}
+
+button_convert.convert-btn:hover {
+    background-color: #53b0b1;
+}
+
+h2, h3 {
+    color: #4f1976;
+}
+
+p {
+    font-size: 1rem;
+}
+
+/* Responsive styling */
+@media (max-width: 768px) {
+    .custom-container {
+        flex-direction: column;
+        gap: 30px;
+    }
+}
+
+@media (max-width: 480px) {
+    .page-title {
+        font-size: 5vw;
+    }
+
+    input {
+        font-size: 0.9rem;
+    }
+
+    .button_convert.convert-btn {
+        font-size: 1rem;
+        padding: 10px;
+    }
+}
+
+/* home */
+.button-container-for-home {
+    position: fixed;      /* Position relative to the page */
+    top: 3vh;               /* Distance from the top */
+    right: 67vw;             /* Distance from the right */
+    display: flex;           /* Arrange buttons horizontally */
+    gap: 0.3vw;               /* Space between buttons */
+}
+/* all the button style stuff */
+button {
+    font-family: 'Oswald';
+    padding: 1.0vw 1.0vh;
+    background-color: #4f1976;  /* Button color */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1vw;
+    transition: background-color 0.3s;
+}
+
+button_convert {
+    font-family: 'Oswald';
+    padding: 1.0vw 1.0vh;
+    background-color: #4f1976;  /* Button color */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 3vw;
+    transition: background-color 0.3s;
+    text-align: center;
+    
+    
+}
+
+button i {
+    margin-right: 10px;  /* the space between icon and text */
+    font-size: 30px;    /* to adjust the size of the icon*/
+}
+
+button:hover {
+    background-color: #53B0B1 ;  /* Darker color on hover */
+}

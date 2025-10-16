@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Area</title> <!-- change title -->
+    <link rel="stylesheet" href="conversions.css"> <!-- Link to external CSS file -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Lilita+One&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Oswald&display=swap" rel="stylesheet">
+</head>
+<body>
+     <!-- This is the button code for home -->
+     <div class="button-container">
+        <form action="TheConvertinator.html"> <!-- redirects to home page -->
+            <button type="submit" class="home-btn">
+                <i class="fa-solid fa-house"></i> Home <!-- ICON LOGO -->
+            </button>
+        </form>
+        <!--These are the buttons for clearHistory and download History-->
+        <button onclick="clearHistory()">
+            <i class="fas fa-history"></i> Clear History
+        </button>
+        <button onclick="downloadHistory()">
+            <i class="fas fa-download"></i> Download History
+        </button>
+    </div>
+    <h1 class="page-title">Area</h1> <!-- change header -->
+    <div class="outer-block">
+        <!-- Inner block 1 -->
+        <div class="inner-block">
+                <input type="number" id="inputField">
+                <select id="dropdown1" onchange="updateDropdown2()">
+                    <option value="squaremeter">SQUARE METER</option>
+                    <option value="squarekilometer">SQUARE KILOMETER</option> <!-- change options -->
+                    <option value="squaremile">SQUARE MILE</option>
+                    <option value="squareyard">SQUARE YARD</option>
+                    <option value="squarefoot">SQUARE FOOT</option>
+                    <option value="squareinch">SQUARE INCH</option>
+                    <option value="hectare">HECTARE</option>
+                    <option value="acre">ACRE</option>
+                </select>
+        </div>
+
+        <span class="equal-sign">=</span>
+
+        <!-- Inner block 2 -->
+        <div class="inner-block">
+            <input type="text" id="outputField">
+            <select id="dropdown2">
+                    <option value="squaremeter">SQUARE METER</option>
+                    <option value="squarekilometer">SQUARE KILOMETER</option> <!-- change options -->
+                    <option value="squaremile">SQUARE MILE</option>
+                    <option value="squareyard">SQUARE YARD</option>
+                    <option value="squarefoot">SQUARE FOOT</option>
+                    <option value="squareinch">SQUARE INCH</option>
+                    <option value="hectare">HECTARE</option>
+                    <option value="acre">ACRE</option>
+            </select>
+        </div>
+
+        <!-- Dropdown menu -->
+       
+    </div>
+ <!-- JavaScript to update dropdown -->
+ <script>
+    function updateDropdown2() {
+        const dropdown1 = ('document.getElementById')('dropdown1');
+        const dropdown2 = document.getElementById('dropdown2');
+        const selectedValue = dropdown1.value;
+ 
+ 
+        // Enable all options first
+        Array.from(dropdown2.options).forEach(option => {
+            option.disabled = false;
+        });
+ 
+ 
+        // to disable the selected option in dropdown 2
+        if (selectedValue) {
+            const optionToDisable = dropdown2.querySelector(`option[value='${selectedValue}']`);
+            if (optionToDisable) {
+                optionToDisable.disabled = true;
+            }
+        }
+        // Automatically select the first enabled option in dropdown 2 if the same value is selected
+        if (dropdown2.value === selectedValue) {
+            for (let option of dropdown2.options) {
+                if (!option.disabled) {
+                    dropdown2.value = option.value;
+                    break;
+                }
+            }
+        }
+    }
+    
+ </script>
+
+<!--conversion button-->
+<div class="convert-btn">
+    <button2 id="convertButton" onclick="convertArea()" disabled>Convert</button2>
+</div>
+
+<!-- JavaScript File -->
+<script src="history.js"></script>
+<!--Script to integrate WASM-->
+
+    <script>
+    function base64ToUint8Array(base64) {
+        const binaryString = atob(base64);
+        const len = binaryString.length;
+        const bytes = new Uint8Array(len);
+        for (let i = 0; i < len; i++) {
+            bytes[i] = binaryString.charCodeAt(i);
+        }
+        return bytes;
+    }
+    function run_wasm() {
+        const base64Wasm = `AGFzbQEAAAABJQdgAnx/AXxgAX8AYAABf2AAAGABfwF/YAN/f38Bf2ADf35/AX4D
+GxoDAAAAAAAAAAABAgMCAgIBAQIDBAEEAQQCAwQFAXABAQEFBgEBggKCAgYXBH8B
+QYCABAt/AUEAC38BQQALfwFBAAsHrQMUBm1lbW9yeQIAEV9fd2FzbV9jYWxsX2N0
+b3JzAAARY29udmVydFNxdWFyZUtpbG8AARJjb252ZXJ0U3F1YXJlTWV0ZXIAAhFj
+b252ZXJ0U3F1YXJlTWlsZQADEWNvbnZlcnRTcXVhcmVZYXJkAAQRY29udmVydFNx
+dWFyZUZvb3QABRFjb252ZXJ0U3F1YXJlSW5jaAAGDmNvbnZlcnRIZWN0YXJlAAcL
+Y29udmVydEFjcmUACBlfX2luZGlyZWN0X2Z1bmN0aW9uX3RhYmxlAQAPX19mdW5j
+c19vbl9leGl0ABkGZmZsdXNoABUVZW1zY3JpcHRlbl9zdGFja19pbml0AAsZZW1z
+Y3JpcHRlbl9zdGFja19nZXRfZnJlZQAMGWVtc2NyaXB0ZW5fc3RhY2tfZ2V0X2Jh
+c2UADRhlbXNjcmlwdGVuX3N0YWNrX2dldF9lbmQADhlfZW1zY3JpcHRlbl9zdGFj
+a19yZXN0b3JlABYXX2Vtc2NyaXB0ZW5fc3RhY2tfYWxsb2MAFxxlbXNjcmlwdGVu
+X3N0YWNrX2dldF9jdXJyZW50ABgKqB0aBAAQCwuEAwIHfxh8IwAhAkEgIQMgAiAD
+ayEEIAQgADkDECAEIAE2AgwgBCgCDCEFQX8hBiAFIAZqIQdBByEIIAcgCEsaAkAC
+QAJAAkACQAJAAkACQAJAAkAgBw4IAAECAwQFBgcICyAEKwMQIQlEAAAAAICELkEh
+CiAJIAqiIQsgBCALOQMYDAgLIAQrAxAhDCAEIAw5AxgMBwsgBCsDECENRG3kuinl
+tdg/IQ4gDSAOoiEPIAQgDzkDGAwGCyAEKwMQIRBEAAAAANY/MkEhESAQIBGiIRIg
+BCASOQMYDAULIAQrAxAhE0QAAADA0IdkQSEUIBMgFKIhFSAEIBU5AxgMBAsgBCsD
+ECEWRAAAAODHGNdBIRcgFiAXoiEYIAQgGDkDGAwDCyAEKwMQIRlEAAAAAAAAWUAh
+GiAZIBqiIRsgBCAbOQMYDAILIAQrAxAhHESPwvUoXONuQCEdIBwgHaIhHiAEIB45
+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
+bXVsdGl2YWx1ZQ==`;
+
+        const wasmBytes = base64ToUint8Array(base64Wasm);
+        WebAssembly.instantiate(wasmBytes, {}).then(outputValues => {
+            wasmExports = outputValues.instance.exports; // Store the WASM exports
+            document.getElementById("convertButton").disabled = false; // Enable the convert button
+        }).catch(err => {
+            console.error("Error loading WebAssembly:", err);
+        });
+    }
+
+    window.onload = run_wasm;
+
+    function convertArea(){
+            var input = parseFloat(document.getElementById('inputField').value);
+            if(isNaN(input)){
+                document.getElementById('outputField').value = "Invalid input";
+                return; 
+            }
+            var origUnit = document.getElementById('dropdown1').options[document.getElementById('dropdown1').selectedIndex].text;
+           var outputUnit = document.getElementById('dropdown2').options[document.getElementById('dropdown2').selectedIndex].text;
+                       
+            var outputValue;
+
+            switch (document.getElementById('dropdown1').value) {
+                case 'squarekilometer':
+                    outputValue = wasmExports.convertSquareKilo(input, getQuery(document.getElementById('dropdown2').value));
+                    break;
+                case 'squaremeter':
+                    outputValue = wasmExports.convertSquareMeter(input, getQuery(document.getElementById('dropdown2').value));
+                    break;
+                case 'squaremile':
+                    outputValue = wasmExports.convertSquareMile(input, getQuery(document.getElementById('dropdown2').value));
+                    break;
+                case 'squareyard':
+                    outputValue = wasmExports.convertSquareYard(input, getQuery(document.getElementById('dropdown2').value));
+                    break;
+                case 'squarefoot':
+                    outputValue = wasmExports.convertSquareFoot(input, getQuery(document.getElementById('dropdown2').value));
+                    break;
+                case 'squareinch':
+                    outputValue = wasmExports.convertSquareInch(input, getQuery(document.getElementById('dropdown2').value));
+                    break;
+                case 'hectare':
+                    outputValue = wasmExports.convertHectare(input, getQuery(document.getElementById('dropdown2').value));
+                    break;
+                case 'acre':
+                    outputValue = wasmExports.convertAcre(input, getQuery(document.getElementById('dropdown2').value));
+                    break; 
+                default:
+                    outputValue = "unknown unit";
+            }
+            document.getElementById('outputField').value = outputValue;
+            document.getElementById("convertButton").addEventListener("click", convertArea);
+
+          // Save formatted conversion history
+          saveConversionHistory(`${input} ${origUnit} = ${outputValue} ${outputUnit}`);  
+
+        }
+
+        function getQuery(unit){
+            switch (unit) {
+                case 'squaremeter': return 1;
+                case 'squarekilometer': return 2;
+                case 'squaremile': return 3;
+                case 'squareyard': return 4;
+                case 'squarefoot': return 5;
+                case 'squareinch': return 6;
+                case 'hectare' : return 7;
+                case 'acre' : return 8;
+                default: return 0;
+            }
+        }
+ </script>
+
+</body>
+</html>

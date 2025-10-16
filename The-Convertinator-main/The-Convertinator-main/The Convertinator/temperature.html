@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Temperature</title> <!-- change title -->
+    <link rel="stylesheet" href="conversions.css"> <!-- Link to external CSS file -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Lilita+One&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Oswald&display=swap" rel="stylesheet">
+</head>
+<body>
+     <!-- This is the button code for home -->
+     <div class="button-container">
+        <form action="TheConvertinator.html"> <!-- redirects to home page -->
+            <button type="submit" class="home-btn">
+                <i class="fa-solid fa-house"></i> Home <!-- ICON LOGO -->
+            </button>
+        </form>
+        <button onclick="clearHistory()">
+            <i class="fas fa-history"></i> Clear History
+        </button>
+        <button onclick="downloadHistory()">
+            <i class="fas fa-download"></i> Download History
+        </button>
+    </div>
+    <h1 class="page-title">Temperature</h1> <!-- change header -->
+    <div class="outer-block">
+        <!-- Inner block 1 -->
+        <div class="inner-block">
+                <input type="number" id="inputField">
+                <select id="dropdown1" onchange="updateDropdown2()">
+                    <option value="degreecelsius">DEGREE CELSIUS</option> <!-- change options -->
+                    <option value="fahrenheit">FAHRENHEIT</option>
+                    <option value="kelvin">KELVIN</option>
+                </select>
+        </div>
+
+        <span class="equal-sign">=</span>
+
+        <!-- Inner block 2 -->
+        <div class="inner-block">
+            <input type="text" id="outputField">
+            <select id="dropdown2">
+                <option value="degreecelsius">DEGREE CELSIUS</option> <!-- change options -->
+                <option value="fahrenheit">FAHRENHEIT</option>
+                <option value="kelvin">KELVIN</option>
+            </select>
+        </div>
+
+        <!-- Dropdown menu -->
+       
+    </div>
+<!-- JavaScript to update dropdown -->
+<script>
+    function updateDropdown2() {
+        const dropdown1 = document.getElementById('dropdown1');
+        const dropdown2 = document.getElementById('dropdown2');
+        const selectedValue = dropdown1.value;
+ 
+ 
+        // Enable all options first
+        Array.from(dropdown2.options).forEach(option => {
+            option.disabled = false;
+        });
+ 
+ 
+        // to disable the selected option in dropdown 2
+        if (selectedValue) {
+            const optionToDisable = dropdown2.querySelector(`option[value='${selectedValue}']`);
+            if (optionToDisable) {
+                optionToDisable.disabled = true;
+            }
+        }
+        // Automatically select the first enabled option in dropdown 2 if the same value is selected
+        if (dropdown2.value === selectedValue) {
+            for (let option of dropdown2.options) {
+                if (!option.disabled) {
+                    dropdown2.value = option.value;
+                    break;
+                }
+            }
+        }
+
+    }
+ </script>
+
+<!--conversion button-->
+<div class="convert-btn">
+    <button2 id="convertButton" onclick="convertTemperature()" disabled>Convert</button2>
+</div>
+
+<!-- JavaScript File -->
+<script src="history.js"></script>
+
+<!--Script to integrate WASM-->
+ <script>
+    function base64ToUint8Array(base64) {
+        const binaryString = atob(base64);
+        const len = binaryString.length;
+        const bytes = new Uint8Array(len);
+        for (let i = 0; i < len; i++) {
+            bytes[i] = binaryString.charCodeAt(i);
+        }
+        return bytes;
+    }
+
+    function run_wasm() {
+        const base64Wasm = `AGFzbQEAAAABJQdgAX8AYAABf2AAAGACfH8BfGABfwF/YAN/f38Bf2ADf35/AX4D
+FhUCAwMDAAECAQEBAAABAgQABAAEAQIEBQFwAQEBBQYBAYICggIGFwR/AUGAgAQL
+fwFBAAt/AUEAC38BQQALB9YCDwZtZW1vcnkCABFfX3dhc21fY2FsbF9jdG9ycwAA
+EkNvbnZlcnRGcm9tQ2Vsc2l1cwABFUNvbnZlcnRGcm9tRmFocmVuaGVpdAACEUNv
+bnZlcnRGcm9tS2VsdmluAAMZX19pbmRpcmVjdF9mdW5jdGlvbl90YWJsZQEAD19f
+ZnVuY3Nfb25fZXhpdAAUBmZmbHVzaAAQFWVtc2NyaXB0ZW5fc3RhY2tfaW5pdAAG
+GWVtc2NyaXB0ZW5fc3RhY2tfZ2V0X2ZyZWUABxllbXNjcmlwdGVuX3N0YWNrX2dl
+dF9iYXNlAAgYZW1zY3JpcHRlbl9zdGFja19nZXRfZW5kAAkZX2Vtc2NyaXB0ZW5f
+c3RhY2tfcmVzdG9yZQARF19lbXNjcmlwdGVuX3N0YWNrX2FsbG9jABIcZW1zY3Jp
+cHRlbl9zdGFja19nZXRfY3VycmVudAATCoQLFQQAEAYL6gECB38NfCMAIQJBICED
+IAIgA2shBCAEIAA5AxAgBCABNgIMIAQoAgwhBUF/IQYgBSAGaiEHQQIhCCAHIAhL
+GgJAAkACQAJAAkAgBw4DAAECAwsgBCsDECEJIAQgCTkDGAwDCyAEKwMQIQpEAAAA
+AAAAIkAhCyAKIAuiIQxEAAAAAAAAFEAhDSAMIA2jIQ5EAAAAAAAAQEAhDyAOIA+g
+IRAgBCAQOQMYDAILIAQrAxAhEURmZmZmZhJxQCESIBEgEqAhEyAEIBM5AxgMAQtE
+AAAAAAAA+H8hFCAEIBQ5AxgLIAQrAxghFSAVDwugAgIHfxN8IwAhAkEgIQMgAiAD
+ayEEIAQgADkDECAEIAE2AgwgBCgCDCEFQX8hBiAFIAZqIQdBAiEIIAcgCEsaAkAC
+QAJAAkACQCAHDgMAAQIDCyAEKwMQIQlEAAAAAAAAQEAhCiAJIAqhIQtEAAAAAAAA
+FEAhDCALIAyiIQ1EAAAAAAAAIkAhDiANIA6jIQ8gBCAPOQMYDAMLIAQrAxAhECAE
+IBA5AxgMAgsgBCsDECERRAAAAAAAAEBAIRIgESASoSETRAAAAAAAABRAIRQgEyAU
+oiEVRAAAAAAAACJAIRYgFSAWoyEXRGZmZmZmEnFAIRggFyAYoCEZIAQgGTkDGAwB
+C0QAAAAAAAD4fyEaIAQgGjkDGAsgBCsDGCEbIBsPC/wBAgd/D3wjACECQSAhAyAC
+IANrIQQgBCAAOQMQIAQgATYCDCAEKAIMIQVBfyEGIAUgBmohB0ECIQggByAISxoC
+QAJAAkACQAJAIAcOAwABAgMLIAQrAxAhCURmZmZmZhJxQCEKIAkgCqEhCyAEIAs5
+AxgMAwsgBCsDECEMRGZmZmZmEnFAIQ0gDCANoSEORAAAAAAAACJAIQ8gDiAPoiEQ
+RAAAAAAAABRAIREgECARoyESRAAAAAAAAEBAIRMgEiAToCEUIAQgFDkDGAwCCyAE
+KwMQIRUgBCAVOQMYDAELRAAAAAAAAPh/IRYgBCAWOQMYCyAEKwMYIRcgFw8LBgAg
+ACQBCwQAIwELEgBBgIAEJANBAEEPakFwcSQCCwcAIwAjAmsLBAAjAwsEACMCCwIA
+CwIACwwAQYCABBAKQYSABAsIAEGAgAQQCwsEAEEBCwIAC78CAQN/AkAgAA0AQQAh
+AQJAQQAoAoiABEUNAEEAKAKIgAQQECEBCwJAQQAoAoiABEUNAEEAKAKIgAQQECAB
+ciEBCwJAEAwoAgAiAEUNAANAAkACQCAAKAJMQQBODQBBASECDAELIAAQDkUhAgsC
+QCAAKAIUIAAoAhxGDQAgABAQIAFyIQELAkAgAg0AIAAQDwsgACgCOCIADQALCxAN
+IAEPCwJAAkAgACgCTEEATg0AQQEhAgwBCyAAEA5FIQILAkACQAJAIAAoAhQgACgC
+HEYNACAAQQBBACAAKAIkEQUAGiAAKAIUDQBBfyEBIAJFDQEMAgsCQCAAKAIEIgEg
+ACgCCCIDRg0AIAAgASADa6xBASAAKAIoEQYAGgtBACEBIABBADYCHCAAQgA3AxAg
+AEIANwIEIAINAQsgABAPCyABCwYAIAAkAAsSAQJ/IwAgAGtBcHEiASQAIAELBAAj
+AAu7AQEDf0GMgAQQCgJAQQAoApCABCIARQ0AQQAoApSABCEBA0BBACABQX9qIgI2
+ApSABAJAIAFBAUgNAANAQQAoApCABCACQQJ0aiICQYQBaigCACEAIAJBBGooAgAh
+AkGMgAQQCyAAIAIRAABBjIAEEApBAEEAKAKUgAQiAEF/aiICNgKUgAQgAEEASg0A
+C0EAKAKQgAQhAAsgACgCACEAQSAhAUEAQSA2ApSABEEAIAA2ApCABCAADQALCwsA
+SQ90YXJnZXRfZmVhdHVyZXMEKw9tdXRhYmxlLWdsb2JhbHMrCHNpZ24tZXh0Kw9y
+ZWZlcmVuY2UtdHlwZXMrCm11bHRpdmFsdWU=`;
+
+        const wasmBytes = base64ToUint8Array(base64Wasm);
+        WebAssembly.instantiate(wasmBytes, {}).then(results => {
+            wasmExports = results.instance.exports; // Store the WASM exports
+            document.getElementById("convertButton").disabled = false; // Enable the convert button
+        }).catch(err => {
+            console.error("Error loading WebAssembly:", err);
+        });
+    }
+        
+        window.onload = run_wasm;
+
+        function convertTemperature() {
+            var input = parseFloat(document.getElementById('inputField').value);
+            if (isNaN(input)) {
+                document.getElementById('outputField').value = "Invalid input";
+                return;
+            }
+
+            var origUnit = document.getElementById('dropdown1').options[document.getElementById('dropdown1').selectedIndex].text;
+            var outputUnit = document.getElementById('dropdown2').options[document.getElementById('dropdown2').selectedIndex].text;
+
+            var outputValue;
+            switch (document.getElementById('dropdown1').value) {
+                case 'degreecelsius':
+                    outputValue = wasmExports.ConvertFromCelsius(input, getQuery(document.getElementById('dropdown2').value));
+                    break;
+                case 'fahrenheit':
+                    outputValue = wasmExports.ConvertFromFahrenheit(input, getQuery(document.getElementById('dropdown2').value));
+                    break;
+                case 'kelvin':
+                    outputValue = wasmExports.ConvertFromKelvin(input, getQuery(document.getElementById('dropdown2').value));
+                    break;
+                default:
+                    outputValue = "Error";
+            }
+
+            document.getElementById('outputField').value = outputValue;
+
+            // Save formatted conversion history
+            saveConversionHistory(`${input} ${origUnit} = ${outputValue} ${outputUnit}`);
+        }
+        function getQuery(unit){
+            switch (unit) {
+                case 'degreecelsius': return 1;
+                case 'fahrenheit': return 2;
+                case 'kelvin': return 3;
+                default: return 0;
+            }
+        }
+ </script>
+</body>
+</html>

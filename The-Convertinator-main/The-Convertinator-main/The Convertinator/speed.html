@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Speed</title> <!-- change title -->
+    <link rel="stylesheet" href="conversions.css"> <!-- Link to external CSS file -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Lilita+One&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Oswald&display=swap" rel="stylesheet">
+</head>
+<body>
+     <!-- This is the button code for home -->
+     <div class="button-container">
+        <form action="TheConvertinator.html"> <!-- redirects to home page -->
+            <button type="submit" class="home-btn">
+                <i class="fa-solid fa-house"></i> Home <!-- ICON LOGO -->
+            </button>
+        </form>
+          <!--These are the buttons for clearHistory and download History-->
+            <button onclick="clearHistory()">
+                <i class="fas fa-history"></i> Clear History
+            </button>
+            <button onclick="downloadHistory()">
+                <i class="fas fa-download"></i> Download History
+            </button>  
+        
+    </div>
+    <h1 class="page-title">Speed</h1> <!-- change header -->
+    <div class="outer-block">
+        <!-- Inner block 1 -->
+        <div class="inner-block">
+                <input type="number" id="inputField">
+                <select id="dropdown1" onchange="updateDropdown2()">
+                    <option value="mileperhour">MILE PER HOUR</option> <!-- change options -->
+                    <option value="footpersecond">FOOT PER SECOND</option>
+                    <option value="meterpersecond">METER PER SECOND</option>
+                    <option value="kilometerperhour">KILOMETER PER HOUR</option>
+                    <option value="knot">KNOT</option>
+                </select>
+        </div>
+
+        <span class="equal-sign">=</span>
+
+        <!-- Inner block 2 -->
+        <div class="inner-block">
+            <input type="text" id="outputField">
+            <select id="dropdown2">
+                    <option value="mileperhour">MILE PER HOUR</option> <!-- change options -->
+                    <option value="footpersecond">FOOT PER SECOND</option>
+                    <option value="meterpersecond">METER PER SECOND</option>
+                    <option value="kilometerperhour">KILOMETER PER HOUR</option>
+                    <option value="knot">KNOT</option>
+            </select>
+        </div>
+
+        <!-- Dropdown menu -->
+       
+    </div>
+<!-- JavaScript to update dropdown -->
+<script>
+    function updateDropdown2() {
+        const dropdown1 = document.getElementById('dropdown1');
+        const dropdown2 = document.getElementById('dropdown2');
+        const selectedValue = dropdown1.value;
+ 
+ 
+        // Enable all options first
+        Array.from(dropdown2.options).forEach(option => {
+            option.disabled = false;
+        });
+ 
+ 
+        // to disable the selected option in dropdown 2
+        if (selectedValue) {
+            const optionToDisable = dropdown2.querySelector(`option[value='${selectedValue}']`);
+            if (optionToDisable) {
+                optionToDisable.disabled = true;
+            }
+        }
+        // Automatically select the first enabled option in dropdown 2 if the same value is selected
+        if (dropdown2.value === selectedValue) {
+            for (let option of dropdown2.options) {
+                if (!option.disabled) {
+                    dropdown2.value = option.value;
+                    break;
+                }
+            }
+        }
+    }
+ </script>
+
+  <!--conversion button-->
+<div class="convert-btn">
+    <button2 id="convertButton" onclick="convertSpeed()" disabled>Convert</button2>
+</div>
+
+<!-- JavaScript File -->
+<script src="history.js"></script>
+
+ <!--Script to integrate WASM-->
+ <script>
+    function base64ToUint8Array(base64) {
+        const binaryString = atob(base64);
+        const len = binaryString.length;
+        const bytes = new Uint8Array(len);
+        for (let i = 0; i < len; i++) {
+            bytes[i] = binaryString.charCodeAt(i);
+        }
+        return bytes;
+    }
+    
+    function run_wasm() {
+        const base64Wasm = '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';
+        const wasmBytes = base64ToUint8Array(base64Wasm);
+        WebAssembly.instantiate(wasmBytes, {}).then(outputValues => {
+            wasmExports = outputValues.instance.exports; // Store the WASM exports
+            document.getElementById("convertButton").disabled = false; // Enable the convert button
+        }).catch(err => {
+            console.error("Error loading WebAssembly:", err);
+        });
+    }
+        window.onload = run_wasm;
+
+        function convertSpeed(){
+            var input = parseFloat(document.getElementById('inputField').value);
+            if(isNaN(input)){
+                document.getElementById('outputField').value = "Invalid input";
+                return; 
+            }
+            var origUnit = document.getElementById('dropdown1').options[document.getElementById('dropdown1').selectedIndex].text;
+           var outputUnit = document.getElementById('dropdown2').options[document.getElementById('dropdown2').selectedIndex].text;                       
+            
+            var outputValue;
+
+            switch (document.getElementById('dropdown1').value) {
+                case 'mileperhour':
+                    outputValue = wasmExports.convertMilePerHour(input, getQuery(document.getElementById('dropdown2').value));
+
+                    break;
+                case 'footpersecond':
+                    outputValue = wasmExports.convertFootPerSecond(input, getQuery(document.getElementById('dropdown2').value));
+
+                    break;
+                case 'meterpersecond':
+                    outputValue = wasmExports.convertMeterPerSecond(input, getQuery(document.getElementById('dropdown2').value));
+
+                    break;
+                case 'kilometerperhour':
+                    outputValue = wasmExports.convertKilometerPerHour(input, getQuery(document.getElementById('dropdown2').value));
+
+                    break;
+                case 'knot':
+                    outputValue = wasmExports.convertKnot(input, getQuery(document.getElementById('dropdown2').value));
+
+                    break;
+        
+                default:
+                    outputValue = "unknown unit";
+            }
+            document.getElementById('outputField').value = outputValue;
+            document.getElementById("convertButton").addEventListener("click", convertSpeed);
+
+          // Save formatted conversion history
+          saveConversionHistory(`${input} ${origUnit} = ${outputValue} ${outputUnit}`);  
+        }
+
+        function getQuery(unit){
+            switch (unit) {
+                case 'mileperhour': return 1;
+                case 'kilometerperhour': return 2;
+                case 'footpersecond': return 3;
+                case 'meterpersecond': return 4;
+                case 'knot': return 5;
+                default: return 0;
+            }
+        }
+ </script>
+</body>
+</html>

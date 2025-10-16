@@ -1,0 +1,160 @@
+body {
+    background-color: #ffffff;
+    font-family: 'Lilita One', sans-serif;
+    text-align: center;
+    padding: 0px;
+    margin: 0;                  /* Remove default margin */
+}
+
+/* Title container styling */
+.title-container {
+    background-color: #a7a4d2;  /* Light purple background */
+    text-align: center;         /* Center the text horizontally */
+    padding: 4vh 0;            /* Vertical padding for height */
+    margin: 0;                  /* Remove any default margin */
+    width: 100%;                /* Ensure it spans the full width */
+    box-sizing: border-box;     /* Include padding in width calculation */
+    margin-bottom: 50px;        /* Space between title and icon grid */
+}
+
+/* Title (h1) styling */
+.title-container h1 {
+    font-size: 4vw; /* Large font size */
+    color: #4f1976;             /* Dark purple title text */
+    margin: 0;                  /* Remove default margin */
+}
+
+button { 
+    background-color: rgb(155, 40, 113);
+    color: #FFFFFF; 
+}
+
+/* Icon grid styling */
+.icon-grid {
+    margin-top: 0;              /* Remove top margin to avoid redundancy */
+    display: grid;
+    grid-template-columns: repeat(5, 1fr); /* 5 icons per row on larger screens */
+    gap: 40px; /* Reduce gap size */
+    max-width: 90%; /* Adjust for responsiveness */
+    margin: auto;
+}
+
+/* Individual icon styling */
+.icon {
+    display: flex;
+    flex-direction: column;  /* Stack icon and text vertically */
+    align-items: center;     /* Center-align both icon and text */
+    justify-content: center;
+    border-radius: 50%;      /* Keeps the icon circle */
+    width: 70%; /* Reduce default icon size */
+    aspect-ratio: 1 / 1;     /* Ensure icons maintain a 1:1 aspect ratio */
+    background-color: #FFFFFF;
+    color: white;
+    font-size: clamp(20px, 2vw, 24px); /* Adjust icon size based on screen size */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+    position: relative;       /* Allows positioning of text */
+}
+
+/* Icon images */
+.icon-img {
+    width: 100%;  /* Fill the icon container */
+    justify-content: center;
+    height: 100%; /* Fill the icon container */
+    object-fit: cover; /* Ensure the image covers the entire icon area */
+    border-radius: 50%;
+}
+
+/* Icon text */
+.icon-text {
+    margin-top: 40px;         /* Space between icon and text */
+    font-size: 20px;          /* Larger text for better readability */
+    font-family: 'Oswald';
+    font-weight: bold;        /* Make text bold */
+    color: #4f1976;              /* Text color */
+    position: absolute;       /* Position outside the circular icon */
+    bottom: -50px;            /* Adjust based on desired spacing */
+    text-align: center;
+    width: 100%;              /* Ensure text spans the width */
+}
+
+/* Hover animation */
+.icon:hover {
+    transform: scale(1.1);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.icon i {
+    font-size: 70px;      /* Adjust icon size */
+    margin-bottom: 10px;  /* Space between icon and text */
+}
+
+/* Responsive Adjustments */
+@media (max-width: 1024px) {
+    .icon-grid {
+        grid-template-columns: repeat(4, 1fr); /* 4 icons per row on medium screens */
+    }
+}
+
+@media (max-width: 768px) {
+    .icon-grid {
+        grid-template-columns: repeat(3, 1fr); /* 3 icons per row on smaller screens */
+    }
+}
+
+@media (max-width: 600px) {
+    .icon-grid {
+        grid-template-columns: repeat(2, 1fr); /* 2 icons per row on small screens */
+        gap: 30px; /* Reduce spacing */
+    }
+    .icon {
+        font-size: 20px; /* Adjust font size */
+    }
+    button {
+        font-size: 3vw; /* Smaller buttons */
+    }
+}
+
+@media (max-width: 400px) {
+    .icon-grid {
+        grid-template-columns: repeat(1, 1fr); /* 1 icon per row on very small screens */
+    }
+}
+
+.button-container-for-home {
+    position: fixed;      /* Position relative to the page */
+    top: 3vh;               /* Distance from the top */
+    right: 6vw;             /* Distance from the right */
+    display: flex;           /* Arrange buttons horizontally */
+    gap: 2vw;               /* Space between buttons */
+}
+
+/* Button container styling */
+.button-container {
+    position: absolute;      /* Position relative to the page */
+    top: 3vh;               /* Distance from the top */
+    right: 6vw;             /* Distance from the right */
+    display: flex;           /* Arrange buttons horizontally */
+}
+
+/* Button styling */
+button {
+    font-family: 'Oswald';
+    padding: 1vw 1vh;
+    background-color: #4f1976;  /* Button color */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 2vw;
+    transition: background-color 0.3s;
+}
+
+button i {
+    margin-right: 10px;  /* Space between icon and text */
+    font-size: 30px;    /* Adjust icon size */
+}
+
+button:hover {
+    background-color: #53B0B1 ;  /* Darker color on hover */
+}

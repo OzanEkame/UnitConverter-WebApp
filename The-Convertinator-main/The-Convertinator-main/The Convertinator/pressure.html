@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pressure</title> <!-- change title -->
+    <link rel="stylesheet" href="conversions.css"> <!-- Link to external CSS file -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Lilita+One&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Oswald&display=swap" rel="stylesheet">
+</head>
+<body>
+     <!-- This is the button code for home -->
+     <div class="button-container">
+        <form action="TheConvertinator.html"> <!-- redirects to home page -->
+            <button type="submit" class="home-btn">
+                <i class="fa-solid fa-house"></i> Home <!-- ICON LOGO -->
+            </button>
+        </form>
+        <!--- This is the button for history-->
+        <button onclick="clearHistory()">
+            <i class="fas fa-history"></i> Clear History
+        </button>
+        <button onclick="downloadHistory()">
+            <i class="fas fa-download"></i> Download History
+        </button> 
+    </div>
+    <h1 class="page-title">Pressure</h1> <!-- change header -->
+    <div class="outer-block">
+        <!-- Inner block 1 -->
+        <div class="inner-block">
+                <input type="number" id="inputField">
+                <select id="dropdown1" onchange="updateDropdown2()">
+                    <option value="bar">BAR</option> <!-- change options -->
+                    <option value="pascal">PASCAL</option>
+                    <option value="poundforcepersquareinch">POUND-FORCE PER SQUARE INCH</option>
+                    <option value="standardatmosphere">STANDARD ATMOSPHERE</option>
+                    <option value="torr">TORR</option>
+                </select>
+        </div>
+
+        <span class="equal-sign">=</span>
+
+        <!-- Inner block 2 -->
+        <div class="inner-block">
+            <input type="text" id="outputField">
+            <select id="dropdown2">
+                <option value="bar">BAR</option> <!-- change options -->
+                <option value="pascal">PASCAL</option>
+                <option value="poundforcepersquareinch">POUND-FORCE PER SQUARE INCH</option>
+                <option value="standardatmosphere">STANDARD ATMOSPHERE</option>
+                <option value="torr">TORR</option>
+            </select>
+        </div>
+
+        <!-- Dropdown menu -->
+       
+    </div>
+<!-- JavaScript to update dropdown -->
+<script>
+    function updateDropdown2() {
+        const dropdown1 = document.getElementById('dropdown1');
+        const dropdown2 = document.getElementById('dropdown2');
+        const selectedValue = dropdown1.value;
+ 
+ 
+        // Enable all options first
+        Array.from(dropdown2.options).forEach(option => {
+            option.disabled = false;
+        });
+ 
+ 
+        // to disable the selected option in dropdown 2
+        if (selectedValue) {
+            const optionToDisable = dropdown2.querySelector(`option[value='${selectedValue}']`);
+            if (optionToDisable) {
+                optionToDisable.disabled = true;
+            }
+        }
+        // Automatically select the first enabled option in dropdown 2 if the same value is selected
+        if (dropdown2.value === selectedValue) {
+            for (let option of dropdown2.options) {
+                if (!option.disabled) {
+                    dropdown2.value = option.value;
+                    break;
+                }
+            }
+        }
+    }
+ 
+ </script>
+
+  <!--conversion button-->
+<div class="convert-btn">
+    <button2 id="convertButton" onclick="convertPressure()" disabled>Convert</button2>
+</div>
+
+
+<!-- JavaScript File -->
+<script src="history.js"></script>
+<!--Script to integrate WASM-->
+
+<script>
+    function base64ToUint8Array(base64) {
+        const binaryString = atob(base64);
+        const len = binaryString.length;
+        const bytes = new Uint8Array(len);
+        for (let i = 0; i < len; i++) {
+            bytes[i] = binaryString.charCodeAt(i);
+        }
+        return bytes;
+    }
+
+    function run_wasm() {
+        const base64Wasm = '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';
+        
+        const wasmBytes = base64ToUint8Array(base64Wasm);
+        WebAssembly.instantiate(wasmBytes, {}).then(outputValues => {
+            wasmExports = outputValues.instance.exports; // Store the WASM exports
+            document.getElementById("convertButton").disabled = false; // Enable the convert button
+        }).catch(err => {
+            console.error("Error loading WebAssembly:", err);
+        });
+    }
+    window.onload = run_wasm;
+
+        function convertPressure(){
+            var input = parseFloat(document.getElementById('inputField').value);
+            if(isNaN(input)){
+                document.getElementById('outputField').value = "Invalid input";
+                return; 
+            }
+            var origUnit = document.getElementById('dropdown1').options[document.getElementById('dropdown1').selectedIndex].text;
+            var outputUnit = document.getElementById('dropdown2').options[document.getElementById('dropdown2').selectedIndex].text;
+            
+            var outputValue;
+
+            switch (document.getElementById('dropdown1').value) {
+                case 'bar':
+                    outputValue = wasmExports.convertBar(input, getQuery(document.getElementById('dropdown2').value));
+
+                    break;
+                case 'pascal':
+                    outputValue = wasmExports.convertPascal(input, getQuery(document.getElementById('dropdown2').value));
+
+                    break;
+                case 'poundforcepersquareinch':
+                    outputValue = wasmExports.convertPoundForce(input, getQuery(document.getElementById('dropdown2').value));
+
+                    break;
+                case 'standardatmosphere':
+                    outputValue = wasmExports.convertStdATM(input, getQuery(document.getElementById('dropdown2').value));
+
+                    break;
+                case 'torr':
+                    outputValue = wasmExports.convertTorr(input, getQuery(document.getElementById('dropdown2').value));
+
+                    break;
+                default:
+                    outputValue = "unknown unit";
+            }
+            document.getElementById('outputField').value = outputValue;
+            document.getElementById("convertButton").addEventListener("click", convertPressure);
+            // Save formatted conversion history
+            saveConversionHistory(`${input} ${origUnit} = ${outputValue} ${outputUnit}`);
+
+        }
+        function getQuery(unit){
+            switch (unit) {
+                case 'bar': return 1;
+                case 'pascal': return 2;
+                case 'poundforcepersquareinch': return 3;
+                case 'standardatmosphere' : return 4;
+                case 'torr': return 5;
+                default: return 0;
+            }
+        }
+</script>
+
+</body>
+</html>

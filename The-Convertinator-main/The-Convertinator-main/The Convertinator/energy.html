@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Energy</title> <!-- change title -->
+    <link rel="stylesheet" href="conversions.css"> <!-- Link to external CSS file -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Lilita+One&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Oswald&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+   <!-- This is the button code for home -->
+    <div class="button-container">
+        <form action="TheConvertinator.html"> <!-- redirects to home page -->
+            <button type="submit" class="home-btn">
+                <i class="fa-solid fa-house"></i> Home <!-- ICON LOGO -->
+            </button>
+        </form>
+
+        <!--These are the buttons for clearHistory and download History-->
+<button onclick="clearHistory()">
+    <i class="fas fa-history"></i> Clear History
+</button>
+<button onclick="downloadHistory()">
+    <i class="fas fa-download"></i> Download History
+</button>
+    </div>
+    
+
+    <h1 class="page-title">Energy</h1> <!-- change header -->
+    <div class="outer-block">
+        <!-- Inner block 1 -->
+        <div class="inner-block">
+                <input type="number" id="inputField">
+                <select id="dropdown1" onchange="updateDropdown2()">
+                    <option value="joule">JOULE</option> <!-- change options -->
+                    <option value="kilojoule">KILOJOULE</option>
+                    <option value="gramcalorie">GRAM CALORIE</option>
+                    <option value="kilocalorie">KILOCALORIE</option>
+                    <option value="watthour">WATT HOUR</option>
+                    <option value="kilowatthour">KILOWATT HOUR</option>
+                    <option value="electronvolt">ELECTRONVOLT</option>
+                    <option value="britishthermalunit">BRITISH THERMAL UNIT</option>
+                    <option value="ustherm">US THERM</option>
+                    <option value="footpound">FOOT-POUND</option>
+                </select>
+        </div>
+
+        <span class="equal-sign">=</span>
+
+        <!-- Inner block 2 -->
+        <div class="inner-block">
+            <input type="text" id="outputField">
+            <select id="dropdown2">
+                    <option value="joule">JOULE</option> <!-- change options -->
+                    <option value="kilojoule">KILOJOULE</option>
+                    <option value="gramcalorie">GRAM CALORIE</option>
+                    <option value="kilocalorie">KILOCALORIE</option>
+                    <option value="watthour">WATT HOUR</option>
+                    <option value="kilowatthour">KILOWATT HOUR</option>
+                    <option value="electronvolt">ELECTRONVOLT</option>
+                    <option value="britishthermalunit">BRITISH THERMAL UNIT</option>
+                    <option value="ustherm">US THERM</option>
+                    <option value="footpound">FOOT-POUND</option>
+            </select>
+        </div>
+
+        <!-- Dropdown menu -->
+       
+    </div>
+<!-- JavaScript to update dropdown -->
+<script>
+    function updateDropdown2() {
+        const dropdown1 = document.getElementById('dropdown1');
+        const dropdown2 = document.getElementById('dropdown2');
+        const selectedValue = dropdown1.value;
+ 
+ 
+        // Enable all options first
+        Array.from(dropdown2.options).forEach(option => {
+            option.disabled = false;
+        });
+ 
+ 
+        // to disable the selected option in dropdown 2
+        if (selectedValue) {
+            const optionToDisable = dropdown2.querySelector(`option[value='${selectedValue}']`);
+            if (optionToDisable) {
+                optionToDisable.disabled = true;
+            }
+        }
+        // Automatically select the first enabled option in dropdown 2 if the same value is selected
+        if (dropdown2.value === selectedValue) {
+            for (let option of dropdown2.options) {
+                if (!option.disabled) {
+                    dropdown2.value = option.value;
+                    break;
+                }
+            }
+        }
+    }
+  
+ </script>
+
+ <!--conversion button-->
+<div class="convert-btn">
+    <button2 id="convertButton" onclick="convertEnergy()" disabled>Convert</button2>
+</div>
+
+<!-- JavaScript File -->
+<script src="history.js"></script>
+<!--Script to integrate WASM-->
+
+<script>
+    function base64ToUint8Array(base64) {
+        const binaryString = atob(base64);
+        const len = binaryString.length;
+        const bytes = new Uint8Array(len);
+        for (let i = 0; i < len; i++) {
+            bytes[i] = binaryString.charCodeAt(i);
+        }
+        return bytes;
+    }
+
+    function run_wasm() {
+        const base64Wasm = `AGFzbQEAAAABJQdgAnx/AXxgAX8AYAABf2AAAGABfwF/YAN/f38Bf2ADf35/AX4D
+HRwDAAAAAAAAAAAAAAECAwICAgEBAgMEAQQBBAIDBAUBcAEBAQUGAQGCAoICBhcE
+fwFBgIAEC38BQQALfwFBAAt/AUEACwfQAxYGbWVtb3J5AgARX193YXNtX2NhbGxf
+Y3RvcnMAAAxjb252ZXJ0Sm91bGUAARBjb252ZXJ0S2lsb2pvdWxlAAISY29udmVy
+dEdyYW1DYWxvcmllAAMSY29udmVydEtpbG9jYWxvcmllAAQPY29udmVydFdhdHRI
+b3VyAAUTY29udmVydEtpbG93YXR0SG91cgAGE2NvbnZlcnRFbGVjdHJvbnZvbHQA
+Bwpjb252ZXJ0QlRVAAgOY29udmVydFVTVGhlcm0ACRBjb252ZXJ0Rm9vdFBvdW5k
+AAoZX19pbmRpcmVjdF9mdW5jdGlvbl90YWJsZQEAD19fZnVuY3Nfb25fZXhpdAAb
+BmZmbHVzaAAXFWVtc2NyaXB0ZW5fc3RhY2tfaW5pdAANGWVtc2NyaXB0ZW5fc3Rh
+Y2tfZ2V0X2ZyZWUADhllbXNjcmlwdGVuX3N0YWNrX2dldF9iYXNlAA8YZW1zY3Jp
+cHRlbl9zdGFja19nZXRfZW5kABAZX2Vtc2NyaXB0ZW5fc3RhY2tfcmVzdG9yZQAY
+F19lbXNjcmlwdGVuX3N0YWNrX2FsbG9jABkcZW1zY3JpcHRlbl9zdGFja19nZXRf
+Y3VycmVudAAaCqwpHAQAEA0L0AMCB38efCMAIQJBICEDIAIgA2shBCAEIAA5AxAg
+BCABNgIMIAQoAgwhBUF/IQYgBSAGaiEHQQkhCCAHIAhLGgJAAkACQAJAAkACQAJA
+AkACQAJAAkACQCAHDgoAAQIDBAUGBwgJCgsgBCsDECEJIAQgCTkDGAwKCyAEKwMQ
+IQpEAAAAAABAj0AhCyAKIAujIQwgBCAMOQMYDAkLIAQrAxAhDUQj2/l+arwQQCEO
+IA0gDqMhDyAEIA85AxgMCAsgBCsDECEQRAAAAAAAWLBAIREgECARoyESIAQgEjkD
+GAwHCyAEKwMQIRNEAAAAAAAgrEAhFCATIBSjIRUgBCAVOQMYDAYLIAQrAxAhFkQA
+AAAAQHdLQSEXIBYgF6MhGCAEIBg5AxgMBQsgBCsDECEZRED/a3sCqNVDIRogGSAa
+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
+bHVl`;
+
+const wasmBytes = base64ToUint8Array(base64Wasm);
+        WebAssembly.instantiate(wasmBytes, {}).then(results => {
+            wasmExports = results.instance.exports; // Store the WASM exports
+            document.getElementById("convertButton").disabled = false; // Enable the convert button
+        }).catch(err => {
+            console.error("Error loading WebAssembly:", err);
+        });
+    }
+    
+    window.onload = run_wasm;
+
+    function convertEnergy(){
+            var input = parseFloat(document.getElementById('inputField').value);
+            if(isNaN(input)){
+                document.getElementById('outputField').value = "Invalid input";
+                return; 
+            }
+            var origUnit = document.getElementById('dropdown1').options[document.getElementById('dropdown1').selectedIndex].text;
+            var outputUnit = document.getElementById('dropdown2').options[document.getElementById('dropdown2').selectedIndex].text;
+                       
+            
+            var outputValue;
+
+            switch (document.getElementById('dropdown1').value) {
+                case 'joule':
+                    outputValue = wasmExports.convertJoule(input, getQuery(document.getElementById('dropdown2').value));
+                    break;
+                case 'kilojoule':
+                    outputValue = wasmExports.convertKilojoule(input, getQuery(document.getElementById('dropdown2').value));
+                    break;
+                case 'gramcalorie':
+                    outputValue = wasmExports.convertGramCalorie(input, getQuery(document.getElementById('dropdown2').value));
+                    break;
+                case 'kilocalorie':
+                    outputValue = wasmExports.convertKilocalorie(input, getQuery(document.getElementById('dropdown2').value));
+                    break;
+                case 'watthour':
+                    outputValue = wasmExports.convertWattHour(input, getQuery(document.getElementById('dropdown2').value));
+                    break;
+                case 'kilowatthour':
+                    outputValue = wasmExports.convertKilowattHour(input, getQuery(document.getElementById('dropdown2').value));
+                    break;
+                case 'electronvolt':
+                    outputValue = wasmExports.convertElectronvolt(input, getQuery(document.getElementById('dropdown2').value));
+                    break;
+                case 'britishthermalunit':
+                    outputValue = wasmExports.convertBTU(input, getQuery(document.getElementById('dropdown2').value));
+                    break; 
+                case 'ustherm':
+                    outputValue = wasmExports.convertUSTherm(input, getQuery(document.getElementById('dropdown2').value));
+                    break; 
+                case 'footpound':
+                    outputValue = wasmExports.convertFootPound(input, getQuery(document.getElementById('dropdown2').value));
+                    break; 
+                default:
+                    outputValue = "unknown unit";
+            }
+            document.getElementById('outputField').value =  outputValue;
+            document.getElementById("convertButton").addEventListener("click", convertEnergy);
+
+            // Save formatted conversion history
+          saveConversionHistory(`${input} ${origUnit} = ${outputValue} ${outputUnit}`);
+        }
+
+        function getQuery(unit){
+            switch (unit) {
+                case 'joule': return 1;
+                case 'kilojoule': return 2;
+                case 'gramcalorie': return 3;
+                case 'kilocalorie': return 4;
+                case 'watthour': return 5;
+                case 'kilowatthour': return 6;
+                case 'electronvolt' : return 7;
+                case 'britishthermalunit' : return 8;
+                case 'ustherm' : return 9;
+                case 'footpound' : return 10;
+                default: return 0;
+            }
+        }
+ </script>
+
+</body>
+</html>

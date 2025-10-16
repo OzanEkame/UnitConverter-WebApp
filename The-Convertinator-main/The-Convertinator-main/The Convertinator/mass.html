@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mass</title> <!-- change title -->
+    <link rel="stylesheet" href="conversions.css"> <!-- Link to external CSS file -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Lilita+One&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Oswald&display=swap" rel="stylesheet">
+</head>
+<body>
+     <!-- This is the button code for home -->
+     <div class="button-container">
+        <form action="TheConvertinator.html"> <!-- redirects to home page -->
+            <button type="submit" class="home-btn">
+                <i class="fa-solid fa-house"></i> Home <!-- ICON LOGO -->
+            </button>
+        </form>
+        <button onclick="clearHistory()">
+            <i class="fas fa-history"></i> Clear History
+        </button>
+        <button onclick="downloadHistory()">
+            <i class="fas fa-download"></i> Download History
+        </button>
+    </div>
+    <h1 class="page-title">Mass</h1> <!-- change header -->
+    <div class="outer-block">
+        <!-- Inner block 1 -->
+        <div class="inner-block">
+                <input type="number" id="inputField">
+                <select id="dropdown1" onchange="updateDropdown2()">
+                    <option value="metricton">METRIC TON</option> <!-- change options -->
+                    <option value="kilogram">KILOGRAM</option>
+                    <option value="gram">GRAM</option>
+                    <option value="milligram">MILLIGRAM</option>
+                    <option value="microgram">MICROGRAM</option>
+                    <option value="imperialton">IMPERIAL TON</option>
+                    <option value="uston">US TON</option>
+                    <option value="stone">STONE</option>
+                    <option value="pound">POUND</option>
+                    <option value="ounce">OUNCE</option>
+                </select>
+        </div>
+
+        <span class="equal-sign">=</span>
+
+        <!-- Inner block 2 -->
+        <div class="inner-block">
+            <input type="text" id="outputField">
+            <select id="dropdown2">
+                <option value="metricton">METRIC TON</option> <!-- change options -->
+                <option value="kilogram">KILOGRAM</option>
+                <option value="gram">GRAM</option>
+                <option value="milligram">MILLIGRAM</option>
+                <option value="microgram">MICROGRAM</option>
+                <option value="imperialton">IMPERIAL TON</option>
+                <option value="uston">US TON</option>
+                <option value="stone">STONE</option>
+                <option value="pound">POUND</option>
+                <option value="ounce">OUNCE</option>
+            </select>
+        </div>
+
+        <!-- Dropdown menu -->
+       
+    </div>
+<!-- JavaScript to update dropdown -->
+<script>
+    function updateDropdown2() {
+        const dropdown1 = document.getElementById('dropdown1');
+        const dropdown2 = document.getElementById('dropdown2');
+        const selectedValue = dropdown1.value;
+ 
+ 
+        // Enable all options first
+        Array.from(dropdown2.options).forEach(option => {
+            option.disabled = false;
+        });
+ 
+ 
+        // to disable the selected option in dropdown 2
+        if (selectedValue) {
+            const optionToDisable = dropdown2.querySelector(`option[value='${selectedValue}']`);
+            if (optionToDisable) {
+                optionToDisable.disabled = true;
+            }
+        }
+        // Automatically select the first enabled option in dropdown 2 if the same value is selected
+        if (dropdown2.value === selectedValue) {
+            for (let option of dropdown2.options) {
+                if (!option.disabled) {
+                    dropdown2.value = option.value;
+                    break;
+                }
+            }
+        }
+    }
+ </script>
+<!--conversion button-->
+<div class="convert-btn">
+    <button2 id="convertButton" onclick="convertMass()" disabled>Convert</button2>
+</div>
+<!-- JavaScript File -->
+<script src="history.js"></script>
+
+<!--Script to integrate WASM-->
+<script>
+    function base64ToUint8Array(base64) {
+        const binaryString = atob(base64);
+        const len = binaryString.length;
+        const bytes = new Uint8Array(len);
+        for (let i = 0; i < len; i++) {
+            bytes[i] = binaryString.charCodeAt(i);
+        }
+        return bytes;
+    }
+    function run_wasm() {
+        const base64Wasm = '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'
+        const wasmBytes = base64ToUint8Array(base64Wasm);
+        WebAssembly.instantiate(wasmBytes, {}).then(outputValues => {
+            wasmExports = outputValues.instance.exports; // Store the WASM exports
+            document.getElementById("convertButton").disabled = false; // Enable the convert button
+        }).catch(err => {
+            console.error("Error loading WebAssembly:", err);
+        });
+    }
+
+    window.onload = run_wasm;
+
+    function convertMass(){
+        var input = parseFloat(document.getElementById('inputField').value);
+        if(isNaN(input)){
+            document.getElementById('outputField').value = "Invalid input";
+            return; 
+        }
+        var origUnit = document.getElementById('dropdown1').options[document.getElementById('dropdown1').selectedIndex].text;
+        var outputUnit = document.getElementById('dropdown2').options[document.getElementById('dropdown2').selectedIndex].text;
+  
+            
+        var outputValue;
+
+        switch(document.getElementById('dropdown1').value){
+            case 'metricton':
+                outputValue = wasmExports.ConvertFromMetricTon(input, getQuery(document.getElementById('dropdown2').value));
+
+                break;
+            case 'kilogram':
+                outputValue = wasmExports.ConvertFromKilogram(input, getQuery(document.getElementById('dropdown2').value));
+
+                break;
+            case 'gram':
+                outputValue = wasmExports.ConvertFromGram(input, getQuery(document.getElementById('dropdown2').value));
+
+                break;
+            case 'milligram':
+                outputValue = wasmExports.ConvertFromMilligram(input, getQuery(document.getElementById('dropdown2').value));
+
+                break;
+            case 'microgram':
+                outputValue = wasmExports.ConvertFromMicrogram(input, getQuery(document.getElementById('dropdown2').value));
+
+                break;
+            case 'imperialton':
+                outputValue = wasmExports.ConvertFromImperialTon(input, getQuery(document.getElementById('dropdown2').value));
+
+                break;
+            case 'uston':
+                outputValue = wasmExports.ConvertFromUSTon(input, getQuery(document.getElementById('dropdown2').value));
+
+                break;
+            case 'stone':
+                outputValue = wasmExports.ConvertFromStone(input, getQuery(document.getElementById('dropdown2').value));
+
+                break;
+            case 'pound':
+                outputValue = wasmExports.ConvertFromPound(input, getQuery(document.getElementById('dropdown2').value));
+
+                break;
+            case 'ounce':
+                outputValue = wasmExports.ConvertFromOunce(input, getQuery(document.getElementById('dropdown2').value));
+
+                break;
+            default:
+                outputValue = "unknown unit";
+        }
+
+        document.getElementById('outputField').value = outputValue;
+        document.getElementById("convertButton").addEventListener("click", convertMass);
+
+        // Save formatted conversion history
+        saveConversionHistory(`${input} ${origUnit} = ${outputValue} ${outputUnit}`);
+
+
+    }
+        function getQuery(unit){
+            switch (unit) {
+                case 'metricton': return 1;
+                case 'kilogram': return 2;
+                case 'gram': return 3;
+                case 'milligram': return 4;
+                case 'microgram': return 5;
+                case 'imperialton': return 6;
+                case 'uston': return 7;
+                case 'stone': return 8;
+                case 'pound': return 9;
+                case 'ounce': return 10;
+                default: return 0;
+            }
+        }
+</script>
+</body>
+</html>

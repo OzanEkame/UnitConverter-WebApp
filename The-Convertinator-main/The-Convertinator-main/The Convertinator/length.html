@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Length</title> <!-- change title -->
+    <link rel="stylesheet" href="conversions.css"> <!-- Link to external CSS file -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Lilita+One&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Oswald&display=swap" rel="stylesheet">
+</head>
+<body>
+     <!-- This is the button code for home -->
+     <div class="button-container">
+        <form action="TheConvertinator.html"> <!-- redirects to home page -->
+            <button type="submit" class="home-btn">
+                <i class="fa-solid fa-house"></i> Home <!-- ICON LOGO -->
+            </button>
+        </form>
+        <!--These are the buttons for clearHistory and download History-->
+        <button onclick="clearHistory()">
+            <i class="fas fa-history"></i> Clear History
+        </button>
+        <button onclick="downloadHistory()">
+             <i class="fas fa-download"></i> Download History
+        </button>
+
+    </div>
+    <h1 class="page-title">Length</h1> <!-- change header -->
+    <div class="outer-block">
+        <!-- Inner block 1 -->
+        <div class="inner-block">
+                <input type="number" id="inputField">
+                <select id="dropdown1" onchange="updateDropdown2()">
+                    <option value="kilometer">KILOMETER</option> <!-- change options -->
+                    <option value="meter">METER</option>
+                    <option value="centimeter">CENTIMETER</option>
+                    <option value="millimeter">MILLIMETER</option>
+                    <option value="micrometer">MICROMETER</option>
+                    <option value="nanometer">NANOMETER</option>
+                    <option value="mile">MILE</option>
+                    <option value="yard">YARD</option>
+                    <option value="foot">FOOT</option>
+                    <option value="inch">INCH</option>
+                    <option value="nauticalmile">NAUTICAL MILE</option>
+                </select>
+        </div>
+
+        <span class="equal-sign">=</span>
+
+        <!-- Inner block 2 -->
+        <div class="inner-block">
+            <input type="text" id="outputField">
+            <select id="dropdown2">
+                <option value="kilometer">KILOMETER</option> <!-- change options -->
+                <option value="meter">METER</option>
+                <option value="centimeter">CENTIMETER</option>
+                <option value="millimeter">MILLIMETER</option>
+                <option value="micrometer">MICROMETER</option>
+                <option value="nanometer">NANOMETER</option>
+                <option value="mile">MILE</option>
+                <option value="yard">YARD</option>
+                <option value="foot">FOOT</option>
+                <option value="inch">INCH</option>
+                <option value="nauticalmile">NAUTICAL MILE</option>
+            </select>
+        </div>
+
+        <!-- Dropdown menu -->
+       
+    </div>
+<!-- JavaScript to update dropdown -->
+<script>
+    function updateDropdown2() {
+        const dropdown1 = document.getElementById('dropdown1');
+        const dropdown2 = document.getElementById('dropdown2');
+        const selectedValue = dropdown1.value;
+ 
+ 
+        // Enable all options first
+        Array.from(dropdown2.options).forEach(option => {
+            option.disabled = false;
+        });
+ 
+ 
+        // to disable the selected option in dropdown 2
+        if (selectedValue) {
+            const optionToDisable = dropdown2.querySelector(`option[value='${selectedValue}']`);
+            if (optionToDisable) {
+                optionToDisable.disabled = true;
+            }
+        }
+        // Automatically select the first enabled option in dropdown 2 if the same value is selected
+        if (dropdown2.value === selectedValue) {
+            for (let option of dropdown2.options) {
+                if (!option.disabled) {
+                    dropdown2.value = option.value;
+                    break;
+                }
+            }
+        }
+    }
+   
+ </script>
+
+<!--conversion button-->
+<div class="convert-btn">
+    <button2 id="convertButton" onclick="convertLength()" disabled>Convert</button2>
+</div>
+
+<!-- JavaScript File -->
+<script src="history.js"></script>
+<!--Script to integrate WASM-->
+
+ <script>
+    function base64ToUint8Array(base64) {
+        const binaryString = atob(base64);
+        const len = binaryString.length;
+        const bytes = new Uint8Array(len);
+        for (let i = 0; i < len; i++) {
+            bytes[i] = binaryString.charCodeAt(i);
+        }
+        return bytes;
+    }
+    
+    function run_wasm() {
+        const base64Wasm = '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';
+        const wasmBytes = base64ToUint8Array(base64Wasm);
+        WebAssembly.instantiate(wasmBytes, {}).then(outputValues => {
+            wasmExports = outputValues.instance.exports; // Store the WASM exports
+            document.getElementById("convertButton").disabled = false; // Enable the convert button
+        }).catch(err => {
+            console.error("Error loading WebAssembly:", err);
+        });
+    }
+        window.onload = run_wasm;
+
+        function convertLength(){
+            var input = parseFloat(document.getElementById('inputField').value);
+            if(isNaN(input)){
+                document.getElementById('outputField').value = "Invalid input";
+                return; 
+            }
+            var origUnit = document.getElementById('dropdown1').options[document.getElementById('dropdown1').selectedIndex].text;
+            var outputUnit = document.getElementById('dropdown2').options[document.getElementById('dropdown2').selectedIndex].text;
+            
+            var outputValue;
+
+            switch (document.getElementById('dropdown1').value) {
+                case 'kilometer':
+                    outputValue = wasmExports.ConvertFromKilometer(input, getQuery(document.getElementById('dropdown2').value));
+
+                    break;
+                case 'meter':
+                    outputValue = wasmExports.ConvertFromMeter(input, getQuery(document.getElementById('dropdown2').value));
+
+                    break;
+                case 'centimeter':
+                    outputValue = wasmExports.ConvertFromCentimeter(input, getQuery(document.getElementById('dropdown2').value));
+
+                    break;
+                case 'millimeter':
+                    outputValue = wasmExports.ConvertFromMillimeter(input, getQuery(document.getElementById('dropdown2').value));
+
+                    break;
+                case 'micrometer':
+                    outputValue = wasmExports.ConvertFromMicrometer(input, getQuery(document.getElementById('dropdown2').value));
+
+                    break;
+                case 'nanometer':
+                    outputValue = wasmExports.ConvertFromNanometer(input, getQuery(document.getElementById('dropdown2').value));
+
+                    break;
+                case 'mile':
+                    outputValue = wasmExports.ConvertFromMile(input, getQuery(document.getElementById('dropdown2').value));
+
+                    break;
+                case 'yard':
+                    outputValue = wasmExports.ConvertFromYard(input, getQuery(document.getElementById('dropdown2').value));
+
+                    break;
+                case 'foot':
+                    outputValue = wasmExports.ConvertFromFoot(input, getQuery(document.getElementById('dropdown2').value));
+
+                    break;
+                case 'inch':
+                    outputValue = wasmExports.ConvertFromInch(input, getQuery(document.getElementById('dropdown2').value));
+
+                    break;
+                case 'nauticalmile':
+                    outputValue = wasmExports.ConvertFromNauticalMile(input, getQuery(document.getElementById('dropdown2').value));
+
+                    break;
+                default:
+                    outputValue = "unknown unit";
+            }
+            document.getElementById('outputField').value = outputValue;
+            document.getElementById("convertButton").addEventListener("click", convertLength);
+            // Save formatted conversion history
+            saveConversionHistory(`${input} ${origUnit} = ${outputValue} ${outputUnit}`);
+
+        }
+
+        function getQuery(unit){
+            switch (unit) {
+                case 'kilometer': return 1;
+                case 'meter': return 2;
+                case 'centimeter': return 3;
+                case 'millimeter': return 4;
+                case 'micrometer': return 5;
+                case 'nanometer': return 6;
+                case 'mile': return 7;
+                case 'yard': return 8;
+                case 'foot': return 9;
+                case 'inch': return 10;
+                case 'nauticalmile': return 11;
+                default: return 0;
+            }
+        }
+ </script>
+</body>
+</html>

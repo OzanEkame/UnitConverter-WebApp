@@ -1,0 +1,20 @@
+Instructions To Run From File Manager
+
+Step 1: Go to "Group5Project" Repository and clone the repository into your Desktop
+Step 2: Select "group5project" folder 
+Step 3: Within "group5project" folder go to "The-Convertinator-main" folder
+Step 4: Within "The-Convertinator-main" folder go into "The Convertinator" folder
+Step 5: Within "The Convertinator" folder find "TheConvertinator.html"
+Step 6: Double click on "TheConvertinator.html"
+Step 7: Enjoy :)
+
+
+Instructions To Run From Terminal
+
+Step 1: git clone https://agile.bu.edu/gitlab/ec327/projects/group5project.git
+Step 2: cd group5project
+Step 3: cd The-Convertinator-main
+Step 4: cd The\ Convertinator or '\The Convertinator\'
+Step 5: xdg-open TheConvertinator.html (For Linux)
+Step 5: start TheConvertinator.html (For Windows)
+Step 6: Enjoy :)

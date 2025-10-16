@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Force</title> <!-- change title -->
+    <link rel="stylesheet" href="conversions.css"> <!-- Link to external CSS file -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Lilita+One&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Oswald&display=swap" rel="stylesheet">
+</head>
+<body>
+     <!-- This is the button code for home -->
+     <div class="button-container">
+        <form action="TheConvertinator.html"> <!-- redirects to home page -->
+            <button type="submit" class="home-btn">
+                <i class="fa-solid fa-house"></i> Home <!-- ICON LOGO -->
+            </button>
+        </form>
+    
+    <!--These are the buttons for clearHistory and download History-->
+        <button onclick="clearHistory()">
+            <i class="fas fa-history"></i> Clear History
+        </button>
+        <button onclick="downloadHistory()">
+            <i class="fas fa-download"></i> Download History
+        </button>
+
+    </div>
+    <h1 class="page-title">Force</h1> <!-- change header -->
+    <div class="outer-block">
+        <!-- Inner block 1 -->
+        <div class="inner-block">
+                <input type="number" id="inputField">
+                <select id="dropdown1" onchange="updateDropdown2()">
+                    <option value="dyne">DYNE</option> <!-- change options -->
+                    <option value="kilogramforce">KILOGRAM-FORCE</option>
+                    <option value="kip">KIP</option>
+                    <option value="newton">NEWTON</option>
+                    <option value="kilonewton">KILONEWTON</option>
+                    <option value="ounceforce">OUNCE-FORCE</option>
+                    <option value="poundal">POUNDAL</option>
+                    <option value="poundforce">POUND-FORCE</option>
+                    <option value="tonforce">TON-FORCE</option>
+                </select>
+        </div>
+
+        <span class="equal-sign">=</span>
+
+        <!-- Inner block 2 -->
+        <div class="inner-block">
+            <input type="text" id="outputField">
+            <select id="dropdown2">
+                <option value="dyne">DYNE</option> <!-- change options -->
+                <option value="kilogramforce">KILOGRAM-FORCE</option>
+                <option value="kip">KIP</option>
+                <option value="newton">NEWTON</option>
+                <option value="kilonewton">KILONEWTON</option>
+                <option value="ounceforce">OUNCE-FORCE</option>
+                <option value="poundal">POUNDAL</option>
+                <option value="poundforce">POUND-FORCE</option>
+                <option value="tonforce">TON-FORCE</option>
+            </select>
+        </div>
+
+        <!-- Dropdown menu -->
+       
+    </div>
+<!-- JavaScript to update dropdown -->
+<script>
+    function updateDropdown2() {
+        const dropdown1 = document.getElementById('dropdown1');
+        const dropdown2 = document.getElementById('dropdown2');
+        const selectedValue = dropdown1.value;
+ 
+ 
+        // Enable all options first
+        Array.from(dropdown2.options).forEach(option => {
+            option.disabled = false;
+        });
+ 
+ 
+        // to disable the selected option in dropdown 2
+        if (selectedValue) {
+            const optionToDisable = dropdown2.querySelector(`option[value='${selectedValue}']`);
+            if (optionToDisable) {
+                optionToDisable.disabled = true;
+            }
+        }
+        // Automatically select the first enabled option in dropdown 2 if the same value is selected
+        if (dropdown2.value === selectedValue) {
+            for (let option of dropdown2.options) {
+                if (!option.disabled) {
+                    dropdown2.value = option.value;
+                    break;
+                }
+            }
+        }
+    }
+   
+ </script>
+
+<!--conversion button-->
+<div class="convert-btn">
+    <button2 id="convertButton" onclick="convertForce()" disabled>Convert</button2>
+</div>
+
+<!-- JavaScript File -->
+<script src="history.js"></script>
+<!--Script to integrate WASM-->
+
+<script>
+    function base64ToUint8Array(base64) {
+        const binaryString = atob(base64);
+        const len = binaryString.length;
+        const bytes = new Uint8Array(len);
+        for (let i = 0; i < len; i++) {
+            bytes[i] = binaryString.charCodeAt(i);
+        }
+        return bytes;
+    }
+    function run_wasm() {
+        const base64Wasm = 'AGFzbQEAAAABJQdgAnx/AXxgAX8AYAABf2AAAGABfwF/YAN/f38Bf2ADf35/AX4DHBsDAAAAAAAAAAAAAQIDAgICAQECAwQBBAEEAgMEBQFwAQEBBQYBAYICggIGFwR/AUGAgAQLfwFBAAt/AUEAC38BQQALB7YDFQZtZW1vcnkCABFfX3dhc21fY2FsbF9jdG9ycwAADWNvbnZlcnROZXd0b24AAQtjb252ZXJ0RHluZQACFGNvbnZlcnRLaWxvZ3JhbUZvcmNlAAMKY29udmVydEtpcAAEEWNvbnZlcnRLaWxvbmV3dG9uAAURY29udmVydE91bmNlRm9yY2UABg5jb252ZXJ0UG91bmRhbAAHEWNvbnZlcnRQb3VuZEZvcmNlAAgPY29udmVydFRvbkZvcmNlAAkZX19pbmRpcmVjdF9mdW5jdGlvbl90YWJsZQEAD19fZnVuY3Nfb25fZXhpdAAaBmZmbHVzaAAWFWVtc2NyaXB0ZW5fc3RhY2tfaW5pdAAMGWVtc2NyaXB0ZW5fc3RhY2tfZ2V0X2ZyZWUADRllbXNjcmlwdGVuX3N0YWNrX2dldF9iYXNlAA4YZW1zY3JpcHRlbl9zdGFja19nZXRfZW5kAA8ZX2Vtc2NyaXB0ZW5fc3RhY2tfcmVzdG9yZQAXF19lbXNjcmlwdGVuX3N0YWNrX2FsbG9jABgcZW1zY3JpcHRlbl9zdGFja19nZXRfY3VycmVudAAZCqYkGwQAEAwLvAMCB38dfCMAIQJBICEDIAIgA2shBCAEIAA5AxAgBCABNgIMIAQoAgwhBUF/IQYgBSAGaiEHQQghCCAHIAhLGgJAAkACQAJAAkACQAJAAkACQAJAAkAgBw4JAAECAwQFBgcICQsgBCsDECEJRAAAAAAAAPA/IQogCSAKoiELIAQgCzkDGAwJCyAEKwMQIQxEAAAAAABq+EAhDSAMIA2iIQ4gBCAOOQMYDAgLIAQrAxAhD0TXqlDpzxq6PyEQIA8gEKIhESAEIBE5AxgMBwsgBCsDECESRBWxDptWdy0/IRMgEiAToiEUIAQgFDkDGAwGCyAEKwMQIRVE/Knx0k1iUD8hFiAVIBaiIRcgBCAXOQMYDAULIAQrAxAhGEQ2laAaisYMQCEZIBggGaIhGiAEIBo5AxgMBAsgBCsDECEbRGkPxS6b7hxAIRwgGyAcoiEdIAQgHTkDGAwDCyAEKwMQIR5EGUQEGYrGzD8hHyAeIB+iISAgBCAgOQMYDAILIAQrAxAhIUTxoebZHE8aPyEiICEgIqIhIyAEICM5AxgMAQtEAAAAAAAA+H8hJCAEICQ5AxgLIAQrAxghJSAlDwu8AwIHfx18IwAhAkEgIQMgAiADayEEIAQgADkDECAEIAE2AgwgBCgCDCEFQX8hBiAFIAZqIQdBCCEIIAcgCEsaAkACQAJAAkACQAJAAkACQAJAAkACQCAHDgkAAQIDBAUGBwgJCyAEKwMQIQlE8WjjiLX45D4hCiAJIAqiIQsgBCALOQMYDAkLIAQrAxAhDEQAAAAAAADwPyENIAwgDaIhDiAEIA45AxgMCAsgBCsDECEPRIINYotb27c+IRAgDyAQoiERIAQgETkDGAwHCyAEKwMQIRJEY3RCuBtFqD4hEyASIBOiIRQgBCAUOQMYDAYLIAQrAxAhFUQ6jDDijnlFPiEWIBUgFqIhFyAEIBc5AxgMBQsgBCsDECEYRHpmBWOdWhg/IRkgGCAZoiEaIAQgGjkDGAwECyAEKwMQIRtE0vvG155ZEj8hHCAbIByiIR0gBCAdOQMYDAMLIAQrAxAhHkSH6naOspL3PiEfIB4gH6IhICAEICA5AxgMAgsgBCsDECEhRCghFzJoBtM+ISIgISAioiEjIAQgIzkDGAwBC0QAAAAAAAD4fyEkIAQgJDkDGAsgBCsDGCElICUPC7wDAgd/HXwjACECQSAhAyACIANrIQQgBCAAOQMQIAQgATYCDCAEKAIMIQVBfyEGIAUgBmohB0EIIQggByAISxoCQAJAAkACQAJAAkACQAJAAkACQAJAIAcOCQABAgMEBQYHCAkLIAQrAxAhCUQFo5I6AZ0jQCEKIAkgCqIhCyAEIAs5AxgMCQsgBCsDECEMRAAAAABy7S1BIQ0gDCANoiEOIAQgDjkDGAwICyAEKwMQIQ9EAAAAAAAA8D8hECAPIBCiIREgBCAROQMYDAcLIAQrAxAhEkRk/cFkTDhyPyETIBIgE6IhFCAEIBQ5AxgMBgsgBCsDECEVRHA8REiCFYQ/IRYgFSAWoiEXIAQgFzkDGAwFCyAEKwMQIRhEwjQMHxGjQUAhGSAYIBmiIRogBCAaOQMYDAQLIAQrAxAhG0SiKTv9IBVSQCEcIBsgHKIhHSAEIB05AxgMAwsgBCsDECEeROM4ZS8RowFAIR8gHiAfoiEgIAQgIDkDGAwCCyAEKwMQISFEJtnxvm0PUj8hIiAhICKiISMgBCAjOQMYDAELRAAAAAAAAPh/ISQgBCAkOQMYCyAEKwMYISUgJQ8LvAMCB38dfCMAIQJBICEDIAIgA2shBCAEIAA5AxAgBCABNgIMIAQoAgwhBUF/IQYgBSAGaiEHQQghCCAHIAhLGgJAAkACQAJAAkACQAJAAkACQAJAAkAgBw4JAAECAwQFBgcICQsgBCsDECEJRMsQx7o4YLFAIQogCSAKoiELIAQgCzkDGAwJCyAEKwMQIQxEAAAAQPU1hUEhDSAMIA2iIQ4gBCAOOQMYDAgLIAQrAxAhD0QbEvdYell8QCEQIA8gEKIhESAEIBE5AxgMBwsgBCsDECESRAAAAAAAAPA/IRMgEiAToiEUIAQgFDkDGAwGCyAEKwMQIRVEdHFlmvrKEUAhFiAVIBaiIRcgBCAXOQMYDAULIAQrAxAhGET2KFyPEmDxQCEZIBggGaIhGiAEIBo5AxgMBAsgBCsDECEbRPhT46U7Ud9AIRwgGyAcoiEdIAQgHTkDGAwDCyAEKwMQIR5EAAAAAABAj0AhHyAeIB+iISAgBCAgOQMYDAILIAQrAxAhIUQAAAAAAADgPyEiICEgIqIhIyAEICM5AxgMAQtEAAAAAAAA+H8hJCAEICQ5AxgLIAQrAxghJSAlDwu8AwIHfx18IwAhAkEgIQMgAiADayEEIAQgADkDECAEIAE2AgwgBCgCDCEFQX8hBiAFIAZqIQdBCCEIIAcgCEsaAkACQAJAAkACQAJAAkACQAJAAkACQCAHDgkAAQIDBAUGBwgJCyAEKwMQIQlEAAAAAABAj0AhCiAJIAqiIQsgBCALOQMYDAkLIAQrAxAhDEQAAAAAhNeXQSENIAwgDaIhDiAEIA45AxgMCAsgBCsDECEPRNbG2AkvfllAIRAgDyAQoiERIAQgETkDGAwHCyAEKwMQIRJE71hsk4rGzD8hEyASIBOiIRQgBCAUOQMYDAYLIAQrAxAhFUQAAAAAAADwPyEWIBUgFqIhFyAEIBc5AxgMBQsgBCsDECEYRLfRAN7iGaxAIRkgGCAZoiEaIAQgGjkDGAwECyAEKwMQIRtEDXGsiwNBvEAhHCAbIByiIR0gBCAdOQMYDAMLIAQrAxAhHkSAKm7c4hlsQCEfIB4gH6IhICAEICA5AxgMAgsgBCsDECEhRCY6yyxCsbk/ISIgISAioiEjIAQgIzkDGAwBC0QAAAAAAAD4fyEkIAQgJDkDGAsgBCsDGCElICUPC7wDAgd/HXwjACECQSAhAyACIANrIQQgBCAAOQMQIAQgATYCDCAEKAIMIQVBfyEGIAUgBmohB0EIIQggByAISxoCQAJAAkACQAJAAkACQAJAAkACQAJAIAcOCQABAgMEBQYHCAkLIAQrAxAhCUSpVhXQ+srRPyEKIAkgCqIhCyAEIAs5AxgMCQsgBCsDECEMREoMAitHuKVAIQ0gDCANoiEOIAQgDjkDGAwICyAEKwMQIQ9EJrUGpR5YnD8hECAPIBCiIREgBCAROQMYDAcLIAQrAxAhEkRoMJlsNGfqPiETIBIgE6IhFCAEIBQ5AxgMBgsgBCsDECEVRMBhLPngJv0+IRYgFSAWoiEXIAQgFzkDGAwFCyAEKwMQIRhEAAAAAAAA8D8hGSAYIBmiIRogBCAaOQMYDAQLIAQrAxAhG0QziA/s+D8AQCEcIBsgHKIhHSAEIB05AxgMAwsgBCsDECEeRAAAAAAAALA/IR8gHiAfoiEgIAQgIDkDGAwCCyAEKwMQISFE0+iCuHpnBz8hIiAhICKiISMgBCAjOQMYDAELRAAAAAAAAPh/ISQgBCAkOQMYCyAEKwMYISUgJQ8LvAMCB38dfCMAIQJBICEDIAIgA2shBCAEIAA5AxAgBCABNgIMIAQoAgwhBUF/IQYgBSAGaiEHQQghCCAHIAhLGgJAAkACQAJAAkACQAJAAkACQAJAAkAgBw4JAAECAwQFBgcICQsgBCsDECEJRN8Vwf9WssE/IQogCSAKoiELIAQgCzkDGAwJCyAEKwMQIQxEMzMzMzOalUAhDSAMIA2iIQ4gBCAOOQMYDAgLIAQrAxAhD0QkzcQZaOONPyEQIA8gEKIhESAEIBE5AxgMBwsgBCsDECESRFfYBklDL9o+IRMgEiAToiEUIAQgFDkDGAwGCyAEKwMQIRVE7WtQQIL+7D4hFiAVIBaiIRcgBCAXOQMYDAULIAQrAxAhGEQUlKKVe4HfPyEZIBggGaIhGiAEIBo5AxgMBAsgBCsDECEbRAAAAAAAAPA/IRwgGyAcoiEdIAQgHTkDGAwDCyAEKwMQIR5EJrUGpR5YnD8hHyAeIB+iISAgBCAgOQMYDAILIAQrAxAhIUTcUwL6LrnSPiEiICEgIqIhIyAEICM5AxgMAQtEAAAAAAAA+H8hJCAEICQ5AxgLIAQrAxghJSAlDwu8AwIHfx18IwAhAkEgIQMgAiADayEEIAQgADkDECAEIAE2AgwgBCgCDCEFQX8hBiAFIAZqIQdBCCEIIAcgCEsaAkACQAJAAkACQAJAAkACQAJAAkACQCAHDgkAAQIDBAUGBwgJCyAEKwMQIQlECacFL/rKEUAhCiAJIAqiIQsgBCALOQMYDAkLIAQrAxAhDERmZmZmRrjlQCENIAwgDaIhDiAEIA45AxgMCAsgBCsDECEPRPiKbr2mB90/IRAgDyAQoiERIAQgETkDGAwHCyAEKwMQIRJELmNK8d8mPT8hEyASIBOiIRQgBCAUOQMYDAYLIAQrAxAhFUT9fc72SzhyPyEWIBUgFqIhFyAEIBc5AxgMBQsgBCsDECEYRAAAAAAAADBAIRkgGCAZoiEaIAQgGjkDGAwECyAEKwMQIRtEwjQMHxGjQUAhHCAbIByiIR0gBCAdOQMYDAMLIAQrAxAhHkQAAAAAAADwPyEfIB4gH6IhICAEICA5AxgMAgsgBCsDECEhRNPogrh6Zwc/ISIgISAioiEjIAQgIzkDGAwBC0QAAAAAAAD4fyEkIAQgJDkDGAsgBCsDGCElICUPC7wDAgd/HXwjACECQSAhAyACIANrIQQgBCAAOQMQIAQgATYCDCAEKAIMIQVBfyEGIAUgBmohB0EIIQggByAISxoCQAJAAkACQAJAAkACQAJAAkACQAJAIAcOCQABAgMEBQYHCAkLIAQrAxAhCUQfhetROGDBQCEKIAkgCqIhCyAEIAs5AxgMCQsgBCsDECEMRAAAAABYJitBIQ0gDCANoiEOIAQgDjkDGAwICyAEKwMQIQ9EGxL3WHpZjEAhECAPIBCiIREgBCAROQMYDAcLIAQrAxAhEkQAAAAAAAAAQCETIBIgE6IhFCAEIBQ5AxgMBgsgBCsDECEVRNAAKJAj57Y/IRYgFSAWoiEXIAQgFzkDGAwFCyAEKwMQIRhEAAAAAABA30AhGSAYIBmiIRogBCAaOQMYDAQLIAQrAxAhG0SamZmZ2XvvQCEcIBsgHKIhHSAEIB05AxgMAwsgBCsDECEeRG3n+6lxkKFAIR8gHiAfoiEgIAQgIDkDGAwCCyAEKwMQISFEAAAAAAAA8D8hIiAhICKiISMgBCAjOQMYDAELRAAAAAAAAPh/ISQgBCAkOQMYCyAEKwMYISUgJQ8LBgAgACQBCwQAIwELEgBBgIAEJANBAEEPakFwcSQCCwcAIwAjAmsLBAAjAwsEACMCCwIACwIACwwAQYCABBAQQYSABAsIAEGAgAQQEQsEAEEBCwIAC78CAQN/AkAgAA0AQQAhAQJAQQAoAoiABEUNAEEAKAKIgAQQFiEBCwJAQQAoAoiABEUNAEEAKAKIgAQQFiABciEBCwJAEBIoAgAiAEUNAANAAkACQCAAKAJMQQBODQBBASECDAELIAAQFEUhAgsCQCAAKAIUIAAoAhxGDQAgABAWIAFyIQELAkAgAg0AIAAQFQsgACgCOCIADQALCxATIAEPCwJAAkAgACgCTEEATg0AQQEhAgwBCyAAEBRFIQILAkACQAJAIAAoAhQgACgCHEYNACAAQQBBACAAKAIkEQUAGiAAKAIUDQBBfyEBIAJFDQEMAgsCQCAAKAIEIgEgACgCCCIDRg0AIAAgASADa6xBASAAKAIoEQYAGgtBACEBIABBADYCHCAAQgA3AxAgAEIANwIEIAINAQsgABAVCyABCwYAIAAkAAsSAQJ/IwAgAGtBcHEiASQAIAELBAAjAAu7AQEDf0GMgAQQEAJAQQAoApCABCIARQ0AQQAoApSABCEBA0BBACABQX9qIgI2ApSABAJAIAFBAUgNAANAQQAoApCABCACQQJ0aiICQYQBaigCACEAIAJBBGooAgAhAkGMgAQQESAAIAIRAQBBjIAEEBBBAEEAKAKUgAQiAEF/aiICNgKUgAQgAEEASg0AC0EAKAKQgAQhAAsgACgCACEAQSAhAUEAQSA2ApSABEEAIAA2ApCABCAADQALCwsASQ90YXJnZXRfZmVhdHVyZXMEKw9tdXRhYmxlLWdsb2JhbHMrCHNpZ24tZXh0Kw9yZWZlcmVuY2UtdHlwZXMrCm11bHRpdmFsdWU=';
+        const wasmBytes = base64ToUint8Array(base64Wasm);
+        WebAssembly.instantiate(wasmBytes, {}).then(results => {
+            wasmExports = results.instance.exports; // Store the WASM exports
+            document.getElementById("convertButton").disabled = false; // Enable the convert button
+        }).catch(err => {
+            console.error("Error loading WebAssembly:", err);
+        });
+    }
+
+    window.onload = run_wasm;
+
+    function convertForce() {
+            var input = parseFloat(document.getElementById('inputField').value);
+            if (isNaN(input)) {
+                document.getElementById('outputField').value = "Invalid input";
+                return;
+            }
+
+            var origUnit = document.getElementById('dropdown1').options[document.getElementById('dropdown1').selectedIndex].text;
+           var outputUnit = document.getElementById('dropdown2').options[document.getElementById('dropdown2').selectedIndex].text;
+
+            var outputValue;
+            switch (document.getElementById('dropdown1').value) {
+                case 'dyne':
+                    outputValue = wasmExports.convertDyne(input, getQuery(document.getElementById('dropdown2').value));
+                    break;
+                case 'kilogramforce':
+                    outputValue = wasmExports.convertKilogramForce(input, getQuery(document.getElementById('dropdown2').value));
+                    break;
+                case 'kip':
+                    outputValue = wasmExports.convertKip(input, getQuery(document.getElementById('dropdown2').value));
+                    break;
+                case 'newton':
+                    outputValue = wasmExports.convertNewton(input, getQuery(document.getElementById('dropdown2').value));
+                    break;
+                case 'kilonewton':
+                    outputValue = wasmExports.convertKilonewton(input, getQuery(document.getElementById('dropdown2').value));
+                    break; 
+                case 'ounceforce':
+                    outputValue = wasmExports.convertOunceForce(input, getQuery(document.getElementById('dropdown2').value));
+                    break; 
+                case 'poundal':
+                    outputValue = wasmExports.convertPoundal(input, getQuery(document.getElementById('dropdown2').value));
+                    break; 
+                case 'poundforce':
+                    outputValue = wasmExports.convertPoundForce(input, getQuery(document.getElementById('dropdown2').value));
+                    break;
+                case 'tonforce':
+                    outputValue = wasmExports.convertTonForce(input, getQuery(document.getElementById('dropdown2').value));
+                    break;
+                default:
+                    outputValue = "Error";
+            }
+
+            document.getElementById('outputField').value = outputValue;
+
+            // Save formatted conversion history
+          saveConversionHistory(`${input} ${origUnit} = ${outputValue} ${outputUnit}`);
+
+        }
+
+        function getQuery(unit){
+            switch (unit) {
+                case 'newton': return 1;
+                case 'dyne': return 2;
+                case 'kilogramforce': return 3;
+                case 'kip': return 4;
+                case 'kilonewton': return 5;
+                case 'ounceforce': return 6;
+                case 'poundal': return 7;
+                case 'poundforce': return 8;
+                case 'tonforce': return 9;
+                default: return 0;
+            }
+        }
+</script>
+
+</body>
+</html>

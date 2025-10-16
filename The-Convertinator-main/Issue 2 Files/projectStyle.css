@@ -1,0 +1,16 @@
+body {
+    background-color: #FCA4C4;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    text-align: center;
+    padding: 50px;
+}
+
+h1{
+    color: #ffffff;
+    margin-left: 30px;
+}
+button{
+    background-color: rgb(155, 40, 113);
+    color: #FFFFFF; 
+
+}
